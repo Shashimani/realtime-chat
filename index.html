@@ -137,7 +137,7 @@ let currentUser = "";
 function connect() {
     currentUser = document.getElementById("username").value;
 
-    ws = new WebSocket("ws://127.0.0.1:8000/ws");
+    ws = new WebSocket(`wss://${location.host}/ws`);
 
     ws.onopen = () => {
         ws.send(currentUser);
