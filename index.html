@@ -1,28 +1,128 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Realtime Chat</title>
-
     <style>
+        * { box-sizing: border-box; }
+
         body {
             margin: 0;
             font-family: Arial;
-            display: flex;
-            height: 100vh;
             background: #0f172a;
             color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Sidebar */
+        /* ── AUTH SCREEN ── */
+        #auth-screen {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            width: 380px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        #auth-screen h2 {
+            margin: 0 0 20px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #94a3b8;
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            color: white;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .auth-input:focus {
+            border-color: #2563eb;
+        }
+
+        .auth-input::placeholder {
+            color: #64748b;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 11px;
+            background: #2563eb;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .auth-btn:hover { background: #1d4ed8; }
+
+        #auth-error {
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+            min-height: 18px;
+        }
+
+        #auth-error.error { color: #f87171; }
+        #auth-error.success { color: #4ade80; }
+
+        /* ── CHAT APP ── */
+        #app {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #app.visible { display: flex; }
+
         #users {
             width: 220px;
             background: #020617;
             padding: 15px;
             border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
         }
 
-        #users h3 {
-            margin-top: 0;
+        #users h3 { margin-top: 0; }
+
+        #userList {
+            flex: 1;
+            padding: 0;
+            margin: 0;
         }
 
         #userList li {
@@ -31,28 +131,44 @@
             margin: 5px 0;
             background: #1e293b;
             border-radius: 6px;
+            font-size: 14px;
         }
 
-        /* Chat Section */
+        #logout-btn {
+            margin-top: auto;
+            padding: 8px;
+            background: #7f1d1d;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #logout-btn:hover { background: #991b1b; }
+
         #chat-section {
             flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        /* Header */
         #top {
-            padding: 10px;
+            padding: 12px 15px;
             background: #020617;
             border-bottom: 1px solid #1e293b;
+            font-size: 14px;
+            color: #94a3b8;
         }
 
-        /* Messages */
+        #top span { color: white; font-weight: bold; }
+
         #chat {
             flex: 1;
             overflow-y: auto;
             padding: 15px;
             list-style: none;
+            margin: 0;
         }
 
         .msg {
@@ -60,141 +176,273 @@
             margin: 6px 0;
             max-width: 60%;
             border-radius: 10px;
+            word-break: break-word;
         }
 
-        .me {
-            background: #2563eb;
-            margin-left: auto;
-        }
-
-        .other {
-            background: #1e293b;
-            margin-right: auto;
-        }
+        .me { background: #2563eb; margin-left: auto; }
+        .other { background: #1e293b; margin-right: auto; }
 
         .system {
             text-align: center;
             color: #94a3b8;
             font-size: 12px;
+            margin: 4px 0;
         }
 
-        /* Input area */
         #bottom {
             display: flex;
             padding: 10px;
             background: #020617;
             border-top: 1px solid #1e293b;
+            gap: 6px;
         }
 
-        input {
-            padding: 8px;
-            margin-right: 5px;
+        #bottom input {
+            padding: 8px 10px;
             border-radius: 6px;
-            border: none;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            outline: none;
+            font-size: 14px;
         }
 
-        button {
-            padding: 8px 12px;
+        #to { width: 140px; }
+        #msg { flex: 1; }
+
+        #send-btn {
+            padding: 8px 14px;
             background: #2563eb;
             border: none;
             color: white;
             border-radius: 6px;
             cursor: pointer;
+            font-weight: bold;
         }
+
+        #send-btn:hover { background: #1d4ed8; }
     </style>
 </head>
-
 <body>
 
-<!-- Sidebar -->
-<div id="users">
-    <h3>🟢 Users</h3>
-    <ul id="userList"></ul>
+<!-- ── AUTH SCREEN ── -->
+<div id="auth-screen">
+    <h2>💬 Realtime Chat</h2>
+
+    <div class="auth-tabs">
+        <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</div>
+        <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="form-login">
+        <input class="auth-input" id="login-username" placeholder="Username or Email" />
+        <input class="auth-input" id="login-password" placeholder="Password" type="password"
+               onkeydown="if(event.key==='Enter') login()" />
+        <button class="auth-btn" onclick="login()">Login</button>
+    </div>
+
+    <!-- Register Form -->
+    <div id="form-register" style="display:none">
+        <input class="auth-input" id="reg-username" placeholder="Username (min 3 chars)" />
+        <input class="auth-input" id="reg-email" placeholder="Email address" type="email" />
+        <input class="auth-input" id="reg-password" placeholder="Password (min 4 chars)" type="password"
+               onkeydown="if(event.key==='Enter') register()" />
+        <button class="auth-btn" onclick="register()">Register</button>
+    </div>
+
+    <div id="auth-error"></div>
 </div>
 
-<!-- Chat -->
-<div id="chat-section">
-
-    <div id="top">
-        <input id="username" placeholder="Enter username"/>
-        <button onclick="connect()">Connect</button>
+<!-- ── CHAT APP ── -->
+<div id="app">
+    <div id="users">
+        <h3>🟢 Online</h3>
+        <ul id="userList"></ul>
+        <button id="logout-btn" onclick="logout()">🚪 Logout</button>
     </div>
 
-    <ul id="chat"></ul>
-
-    <div id="bottom">
-        <input id="to" placeholder="To (optional)"/>
-        <input id="msg" placeholder="Message"/>
-        <button onclick="send()">Send</button>
+    <div id="chat-section">
+        <div id="top">Logged in as: <span id="logged-as"></span></div>
+        <ul id="chat"></ul>
+        <div id="bottom">
+            <input id="to" placeholder="To (optional)" />
+            <input id="msg" placeholder="Type a message..."
+                   onkeydown="if(event.key==='Enter') send()" />
+            <button id="send-btn" onclick="send()">Send</button>
+        </div>
     </div>
-
 </div>
 
 <script>
 let ws;
 let currentUser = "";
+let authToken = "";
 
-function connect() {
-    currentUser = document.getElementById("username").value;
+// ── TAB SWITCH ──────────────────────────────────────────
+function switchTab(tab) {
+    document.getElementById("form-login").style.display = tab === "login" ? "block" : "none";
+    document.getElementById("form-register").style.display = tab === "register" ? "block" : "none";
+    document.getElementById("tab-login").classList.toggle("active", tab === "login");
+    document.getElementById("tab-register").classList.toggle("active", tab === "register");
+    clearError();
+}
 
-    ws = new WebSocket(`wss://${location.host}/ws`);
+function showError(msg) {
+    const el = document.getElementById("auth-error");
+    el.innerText = msg;
+    el.className = "error";
+}
+
+function showSuccess(msg) {
+    const el = document.getElementById("auth-error");
+    el.innerText = msg;
+    el.className = "success";
+}
+
+function clearError() {
+    const el = document.getElementById("auth-error");
+    el.innerText = "";
+    el.className = "";
+}
+
+// ── REGISTER ────────────────────────────────────────────
+async function register() {
+    const username = document.getElementById("reg-username").value.trim();
+    const email    = document.getElementById("reg-email").value.trim();
+    const password = document.getElementById("reg-password").value;
+
+    if (!username || !email || !password) return showError("Please fill in all fields.");
+
+    // Basic email format check
+    if (!email.includes("@") || !email.includes(".")) return showError("Please enter a valid email.");
+
+    const res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        showError(data.detail || "Registration failed.");
+    } else {
+        showSuccess("✅ Registered! Please log in.");
+        switchTab("login");
+        document.getElementById("login-username").value = username;
+    }
+}
+
+// ── LOGIN ───────────────────────────────────────────────
+async function login() {
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    if (!username || !password) return showError("Please fill in all fields.");
+
+    const res = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        showError(data.detail || "Login failed.");
+    } else {
+        authToken = data.access_token;
+        currentUser = username;
+
+        // If logged in with email, fetch the real username
+        if (username.includes("@")) {
+            const me = await fetch("/me", {
+                headers: { "Authorization": "Bearer " + authToken }
+            });
+            const meData = await me.json();
+            currentUser = meData.username;
+        }
+
+        startChat();
+    }
+}
+
+// ── START CHAT ──────────────────────────────────────────
+function startChat() {
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("app").classList.add("visible");
+    document.getElementById("logged-as").innerText = currentUser;
+
+    ws = new WebSocket(`ws://${location.host}/ws`);
 
     ws.onopen = () => {
-        ws.send(currentUser);
+        ws.send(authToken);
     };
 
     ws.onmessage = (event) => {
-        let data = event.data;
+        const data = event.data;
 
-        // USERS LIST
         if (data.startsWith("USERS:")) {
-            let users = data.replace("USERS:", "").split(",");
-            let ul = document.getElementById("userList");
+            const users = data.replace("USERS:", "").split(",");
+            const ul = document.getElementById("userList");
             ul.innerHTML = "";
-
             users.forEach(user => {
-                let li = document.createElement("li");
+                const li = document.createElement("li");
                 li.innerText = user;
                 ul.appendChild(li);
             });
             return;
         }
 
-        let li = document.createElement("li");
+        const li = document.createElement("li");
 
-        // SYSTEM MESSAGE
         if (data.includes("joined") || data.includes("left")) {
             li.className = "system";
             li.innerText = data;
-        }
-        else {
+        } else {
             li.classList.add("msg");
-
-            if (data.startsWith(currentUser)) {
-                li.classList.add("me");
-            } else {
-                li.classList.add("other");
-            }
-
+            li.classList.add(data.startsWith(currentUser) || data.startsWith("📤") ? "me" : "other");
             li.innerText = data;
         }
 
         document.getElementById("chat").appendChild(li);
         li.scrollIntoView();
     };
+
+    ws.onclose = () => {
+        addSystemMsg("⚠️ Disconnected from server.");
+    };
 }
 
+// ── SEND MESSAGE ────────────────────────────────────────
 function send() {
-    let to = document.getElementById("to").value;
-    let msg = document.getElementById("msg").value;
-
-    if (to === "") {
-        ws.send(msg);
-    } else {
-        ws.send(to + "|" + msg);
-    }
-
+    const to  = document.getElementById("to").value.trim();
+    const msg = document.getElementById("msg").value.trim();
+    if (!msg) return;
+    ws.send(to ? `${to}|${msg}` : msg);
     document.getElementById("msg").value = "";
+}
+
+// ── LOGOUT ──────────────────────────────────────────────
+function logout() {
+    if (ws) ws.close();
+    authToken = "";
+    currentUser = "";
+    document.getElementById("app").classList.remove("visible");
+    document.getElementById("auth-screen").style.display = "block";
+    document.getElementById("chat").innerHTML = "";
+    document.getElementById("userList").innerHTML = "";
+    document.getElementById("login-password").value = "";
+    clearError();
+}
+
+function addSystemMsg(text) {
+    const li = document.createElement("li");
+    li.className = "system";
+    li.innerText = text;
+    document.getElementById("chat").appendChild(li);
+    li.scrollIntoView();
 }
 </script>
 
