@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title>Realtime Chat</title>
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            margin: 0;
-            font-family: Arial;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: #0f172a;
             color: white;
             height: 100vh;
@@ -17,7 +16,7 @@
             justify-content: center;
         }
 
-        /* ── AUTH SCREEN ── */
+        /* ── AUTH ── */
         #auth-screen {
             background: #1e293b;
             padding: 40px;
@@ -26,11 +25,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
 
-        #auth-screen h2 {
-            margin: 0 0 20px;
-            text-align: center;
-            font-size: 22px;
-        }
+        #auth-screen h2 { text-align: center; font-size: 22px; margin-bottom: 20px; }
 
         .auth-tabs {
             display: flex;
@@ -39,202 +34,281 @@
         }
 
         .auth-tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            color: #94a3b8;
-            font-weight: bold;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            color: #94a3b8; font-weight: bold; border-bottom: 2px solid transparent;
         }
 
-        .auth-tab.active {
-            color: white;
-            border-bottom: 2px solid #2563eb;
-        }
+        .auth-tab.active { color: white; border-bottom: 2px solid #25d366; }
 
         .auth-input {
-            width: 100%;
-            padding: 10px 12px;
-            margin-bottom: 14px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            outline: none;
+            width: 100%; padding: 10px 12px; margin-bottom: 14px;
+            background: #0f172a; border: 1px solid #334155; border-radius: 8px;
+            color: white; font-size: 14px; outline: none;
         }
 
-        .auth-input:focus {
-            border-color: #2563eb;
-        }
-
-        .auth-input::placeholder {
-            color: #64748b;
-        }
+        .auth-input:focus { border-color: #25d366; }
+        .auth-input::placeholder { color: #64748b; }
 
         .auth-btn {
-            width: 100%;
-            padding: 11px;
-            background: #2563eb;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+            width: 100%; padding: 11px; background: #25d366; border: none;
+            border-radius: 8px; color: white; font-size: 15px; font-weight: bold; cursor: pointer;
         }
 
-        .auth-btn:hover { background: #1d4ed8; }
+        .auth-btn:hover { background: #1ebe57; }
 
-        #auth-error {
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: center;
-            min-height: 18px;
-        }
+        #auth-msg { font-size: 13px; margin-top: 10px; text-align: center; min-height: 18px; }
+        #auth-msg.error { color: #f87171; }
+        #auth-msg.success { color: #4ade80; }
 
-        #auth-error.error { color: #f87171; }
-        #auth-error.success { color: #4ade80; }
-
-        /* ── CHAT APP ── */
-        #app {
-            display: none;
-            width: 100vw;
-            height: 100vh;
-        }
-
+        /* ── APP ── */
+        #app { display: none; width: 100vw; height: 100vh; }
         #app.visible { display: flex; }
 
-        #users {
-            width: 220px;
-            background: #020617;
-            padding: 15px;
-            border-right: 1px solid #1e293b;
-            display: flex;
-            flex-direction: column;
+        /* ── SIDEBAR ── */
+        #sidebar {
+            width: 300px; background: #111b21; border-right: 1px solid #222d34;
+            display: flex; flex-direction: column; flex-shrink: 0;
         }
 
-        #users h3 { margin-top: 0; }
-
-        #userList {
-            flex: 1;
-            padding: 0;
-            margin: 0;
+        #sidebar-header {
+            padding: 12px 16px; background: #202c33;
+            display: flex; align-items: center; justify-content: space-between;
         }
 
-        #userList li {
-            list-style: none;
-            padding: 6px;
-            margin: 5px 0;
-            background: #1e293b;
-            border-radius: 6px;
-            font-size: 14px;
+        #sidebar-header span { font-weight: bold; font-size: 18px; }
+
+        #add-friend-btn {
+            background: #25d366; border: none; color: white; border-radius: 20px;
+            padding: 6px 14px; cursor: pointer; font-size: 13px; font-weight: bold;
+        }
+
+        .sidebar-tabs {
+            display: flex; background: #111b21; border-bottom: 1px solid #222d34;
+        }
+
+        .sidebar-tab {
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            font-size: 13px; color: #8696a0; border-bottom: 2px solid transparent; font-weight: bold;
+        }
+
+        .sidebar-tab.active { color: #25d366; border-bottom: 2px solid #25d366; }
+
+        #friends-panel, #requests-panel { flex: 1; overflow-y: auto; }
+
+        .friend-item {
+            display: flex; align-items: center; padding: 12px 16px; cursor: pointer;
+            border-bottom: 1px solid #1f2c33; transition: background 0.15s; gap: 12px;
+        }
+
+        .friend-item:hover { background: #182229; }
+        .friend-item.active { background: #2a3942; }
+
+        .friend-avatar {
+            width: 42px; height: 42px; border-radius: 50%; background: #25d366;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 17px; flex-shrink: 0; color: #111b21;
+        }
+
+        .friend-info { flex: 1; min-width: 0; }
+
+        .friend-name {
+            font-size: 15px; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .friend-status { font-size: 12px; color: #8696a0; margin-top: 2px; }
+        .friend-status.online { color: #25d366; }
+
+        .friend-preview {
+            font-size: 12px; color: #8696a0; margin-top: 2px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .request-item { padding: 12px 16px; border-bottom: 1px solid #1f2c33; }
+        .request-name { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #e9edef; }
+        .request-actions { display: flex; gap: 8px; }
+
+        .accept-btn {
+            flex: 1; padding: 6px; background: #25d366; border: none;
+            color: white; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold;
+        }
+
+        .reject-btn {
+            flex: 1; padding: 6px; background: #374151; border: none;
+            color: #f87171; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold;
+        }
+
+        .badge {
+            background: #25d366; color: #111b21; border-radius: 10px;
+            padding: 1px 7px; font-size: 11px; font-weight: bold; margin-left: 4px;
         }
 
         #logout-btn {
-            margin-top: auto;
-            padding: 8px;
-            background: #7f1d1d;
-            border: none;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
+            margin: 10px; padding: 9px; background: #1f2c33; border: 1px solid #374151;
+            color: #f87171; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold;
         }
 
-        #logout-btn:hover { background: #991b1b; }
-
-        #chat-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        /* ── CHAT AREA ── */
+        #chat-area {
+            flex: 1; display: flex; flex-direction: column; background: #0b141a;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23182229' fill-opacity='0.5'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
-        #top {
-            padding: 12px 15px;
-            background: #020617;
-            border-bottom: 1px solid #1e293b;
-            font-size: 14px;
-            color: #94a3b8;
+        #chat-header {
+            padding: 10px 16px; background: #202c33; display: flex; align-items: center;
+            gap: 12px; border-bottom: 1px solid #222d34; min-height: 60px;
         }
 
-        #top span { color: white; font-weight: bold; }
-
-        #chat {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            list-style: none;
-            margin: 0;
+        #chat-header-avatar {
+            width: 40px; height: 40px; border-radius: 50%; background: #25d366;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 16px; color: #111b21; flex-shrink: 0;
         }
 
-        .msg {
-            padding: 8px 12px;
-            margin: 6px 0;
-            max-width: 60%;
-            border-radius: 10px;
-            word-break: break-word;
+        #chat-header-info { flex: 1; }
+        #chat-header-name { font-weight: bold; font-size: 16px; }
+        #chat-header-status { font-size: 12px; color: #8696a0; margin-top: 1px; }
+        #chat-header-status.online { color: #25d366; }
+
+        #chat-empty-state {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: #8696a0;
         }
 
-        .me { background: #2563eb; margin-left: auto; }
-        .other { background: #1e293b; margin-right: auto; }
+        #chat-empty-state .icon { font-size: 64px; margin-bottom: 16px; }
+        #chat-empty-state p { font-size: 16px; }
 
-        .system {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 12px;
-            margin: 4px 0;
+        /* ── MESSAGES ── */
+        #messages {
+            flex: 1; overflow-y: auto; padding: 12px 8%;
+            list-style: none; display: none; scroll-behavior: smooth;
         }
 
-        #bottom {
-            display: flex;
-            padding: 10px;
-            background: #020617;
-            border-top: 1px solid #1e293b;
-            gap: 6px;
+        #loading-msgs {
+            display: none; flex: 1; align-items: center; justify-content: center;
+            color: #8696a0; font-size: 14px;
         }
 
-        #bottom input {
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: white;
-            outline: none;
-            font-size: 14px;
+        .msg-row { display: flex; margin-bottom: 4px; }
+        .msg-row.me { justify-content: flex-end; }
+        .msg-row.other { justify-content: flex-start; }
+
+        .bubble {
+            position: relative; padding: 7px 10px 18px 10px; border-radius: 8px;
+            font-size: 14.5px; line-height: 1.4; max-width: 65%;
+            min-width: 60px; word-wrap: break-word; overflow-wrap: break-word;
         }
 
-        #to { width: 140px; }
-        #msg { flex: 1; }
+        .bubble.me { background: #005c4b; border-top-right-radius: 0; color: #e9edef; }
+        .bubble.other { background: #202c33; border-top-left-radius: 0; color: #e9edef; }
+
+        .bubble-text { display: block; white-space: pre-wrap; word-break: break-word; }
+
+        .bubble-time {
+            position: absolute; bottom: 4px; right: 8px;
+            font-size: 10px; color: #8696a0; white-space: nowrap;
+        }
+
+        .date-divider { text-align: center; margin: 12px 0; }
+        .date-divider span {
+            background: #182229; color: #8696a0; padding: 4px 14px;
+            border-radius: 8px; font-size: 12px;
+        }
+
+        /* ── INPUT ── */
+        #chat-input-area {
+            display: none; padding: 10px 16px; background: #202c33;
+            gap: 10px; align-items: center;
+        }
+
+        #msg-input {
+            flex: 1; padding: 11px 16px; background: #2a3942; border: none;
+            border-radius: 24px; color: #e9edef; font-size: 15px; outline: none;
+        }
+
+        #msg-input::placeholder { color: #8696a0; }
 
         #send-btn {
-            padding: 8px 14px;
-            background: #2563eb;
-            border: none;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
+            width: 44px; height: 44px; background: #25d366; border: none; color: white;
+            border-radius: 50%; cursor: pointer; font-size: 18px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
 
-        #send-btn:hover { background: #1d4ed8; }
+        #send-btn:hover { background: #1ebe57; }
+
+        /* ── MODAL ── */
+        #modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            align-items: center; justify-content: center; z-index: 100;
+        }
+
+        #modal-overlay.visible { display: flex; }
+
+        #modal {
+            background: #202c33; border-radius: 12px; padding: 28px; width: 380px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        #modal h3 { margin-bottom: 16px; font-size: 18px; }
+
+        #search-input {
+            width: 100%; padding: 10px 14px; background: #2a3942; border: none;
+            border-radius: 8px; color: #e9edef; font-size: 14px; outline: none; margin-bottom: 12px;
+        }
+
+        #search-input::placeholder { color: #8696a0; }
+        #search-results { max-height: 260px; overflow-y: auto; }
+
+        .search-item {
+            display: flex; align-items: center; padding: 10px 12px; border-radius: 8px;
+            margin-bottom: 6px; background: #2a3942; justify-content: space-between; gap: 10px;
+        }
+
+        .search-item-left { display: flex; align-items: center; gap: 10px; }
+
+        .search-avatar {
+            width: 36px; height: 36px; border-radius: 50%; background: #25d366;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #111b21; font-size: 14px; flex-shrink: 0;
+        }
+
+        .add-btn {
+            padding: 5px 14px; background: #25d366; border: none; color: #111b21;
+            border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; flex-shrink: 0;
+        }
+
+        .add-btn:disabled { background: #2a3942; color: #8696a0; cursor: default; }
+
+        #modal-close {
+            width: 100%; margin-top: 12px; padding: 10px; background: #2a3942;
+            border: none; color: #e9edef; border-radius: 8px; cursor: pointer; font-size: 14px;
+        }
+
+        /* ── TOAST ── */
+        #toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: #182229; border: 1px solid #2a3942; border-radius: 10px;
+            padding: 12px 20px; font-size: 14px; display: none; z-index: 200;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4); white-space: nowrap;
+        }
+
+        #toast.show { display: block; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2a3942; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<!-- ── AUTH SCREEN ── -->
+<!-- ── AUTH ── -->
 <div id="auth-screen">
     <h2>💬 Realtime Chat</h2>
-
     <div class="auth-tabs">
         <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</div>
         <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</div>
     </div>
 
-    <!-- Login Form -->
     <div id="form-login">
         <input class="auth-input" id="login-username" placeholder="Username or Email" />
         <input class="auth-input" id="login-password" placeholder="Password" type="password"
@@ -242,7 +316,6 @@
         <button class="auth-btn" onclick="login()">Login</button>
     </div>
 
-    <!-- Register Form -->
     <div id="form-register" style="display:none">
         <input class="auth-input" id="reg-username" placeholder="Username (min 3 chars)" />
         <input class="auth-input" id="reg-email" placeholder="Email address" type="email" />
@@ -251,200 +324,544 @@
         <button class="auth-btn" onclick="register()">Register</button>
     </div>
 
-    <div id="auth-error"></div>
+    <div id="auth-msg"></div>
 </div>
 
-<!-- ── CHAT APP ── -->
+<!-- ── APP ── -->
 <div id="app">
-    <div id="users">
-        <h3>🟢 Online</h3>
-        <ul id="userList"></ul>
+    <div id="sidebar">
+        <div id="sidebar-header">
+            <span id="my-username"></span>
+            <button id="add-friend-btn" onclick="openModal()">➕ Add Friend</button>
+        </div>
+
+        <div class="sidebar-tabs">
+            <div class="sidebar-tab active" id="stab-friends" onclick="switchSidebarTab('friends')">Friends</div>
+            <div class="sidebar-tab" id="stab-requests" onclick="switchSidebarTab('requests')">
+                Requests <span id="req-badge" class="badge" style="display:none">0</span>
+            </div>
+        </div>
+
+        <div id="friends-panel"></div>
+        <div id="requests-panel" style="display:none"></div>
+
         <button id="logout-btn" onclick="logout()">🚪 Logout</button>
     </div>
 
-    <div id="chat-section">
-        <div id="top">Logged in as: <span id="logged-as"></span></div>
-        <ul id="chat"></ul>
-        <div id="bottom">
-            <input id="to" placeholder="To (optional)" />
-            <input id="msg" placeholder="Type a message..."
-                   onkeydown="if(event.key==='Enter') send()" />
-            <button id="send-btn" onclick="send()">Send</button>
+    <div id="chat-area">
+        <div id="chat-empty-state">
+            <div class="icon">💬</div>
+            <p>Select a friend to start chatting</p>
+        </div>
+
+        <div id="active-chat" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+            <div id="chat-header">
+                <div id="chat-header-avatar"></div>
+                <div id="chat-header-info">
+                    <div id="chat-header-name"></div>
+                    <div id="chat-header-status"></div>
+                </div>
+            </div>
+
+            <div id="loading-msgs">Loading messages...</div>
+            <ul id="messages"></ul>
+
+            <div id="chat-input-area">
+                <input id="msg-input" placeholder="Type a message"
+                       onkeydown="if(event.key==='Enter') sendMessage()" />
+                <button id="send-btn" onclick="sendMessage()">➤</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- ── MODAL ── -->
+<div id="modal-overlay">
+    <div id="modal">
+        <h3>➕ Add Friend</h3>
+        <input id="search-input" placeholder="Search by username..." oninput="searchUsers()" />
+        <div id="search-results"></div>
+        <button id="modal-close" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
 let ws;
 let currentUser = "";
 let authToken = "";
+let activeFriend = null;
+let friendsData = { friends: [], online_friends: [], pending_incoming: [], pending_outgoing: [] };
+let chatCache = {}; // { username: [messages] } - runtime cache
 
-// ── TAB SWITCH ──────────────────────────────────────────
+// ── AUTH ────────────────────────────────────────────────
 function switchTab(tab) {
     document.getElementById("form-login").style.display = tab === "login" ? "block" : "none";
     document.getElementById("form-register").style.display = tab === "register" ? "block" : "none";
     document.getElementById("tab-login").classList.toggle("active", tab === "login");
     document.getElementById("tab-register").classList.toggle("active", tab === "register");
-    clearError();
+    setAuthMsg("", "");
 }
 
-function showError(msg) {
-    const el = document.getElementById("auth-error");
+function setAuthMsg(msg, type) {
+    const el = document.getElementById("auth-msg");
     el.innerText = msg;
-    el.className = "error";
+    el.className = type;
 }
 
-function showSuccess(msg) {
-    const el = document.getElementById("auth-error");
-    el.innerText = msg;
-    el.className = "success";
-}
-
-function clearError() {
-    const el = document.getElementById("auth-error");
-    el.innerText = "";
-    el.className = "";
-}
-
-// ── REGISTER ────────────────────────────────────────────
 async function register() {
     const username = document.getElementById("reg-username").value.trim();
     const email    = document.getElementById("reg-email").value.trim();
     const password = document.getElementById("reg-password").value;
-
-    if (!username || !email || !password) return showError("Please fill in all fields.");
-
-    // Basic email format check
-    if (!email.includes("@") || !email.includes(".")) return showError("Please enter a valid email.");
+    if (!username || !email || !password) return setAuthMsg("Please fill in all fields.", "error");
 
     const res = await fetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password })
     });
-
     const data = await res.json();
-
-    if (!res.ok) {
-        showError(data.detail || "Registration failed.");
-    } else {
-        showSuccess("✅ Registered! Please log in.");
-        switchTab("login");
-        document.getElementById("login-username").value = username;
-    }
+    if (!res.ok) return setAuthMsg(data.detail || "Registration failed.", "error");
+    setAuthMsg("✅ Registered! Please log in.", "success");
+    switchTab("login");
+    document.getElementById("login-username").value = username;
 }
 
-// ── LOGIN ───────────────────────────────────────────────
 async function login() {
     const username = document.getElementById("login-username").value.trim();
     const password = document.getElementById("login-password").value;
-
-    if (!username || !password) return showError("Please fill in all fields.");
+    if (!username || !password) return setAuthMsg("Please fill in all fields.", "error");
 
     const res = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({ username, password })
     });
-
     const data = await res.json();
+    if (!res.ok) return setAuthMsg(data.detail || "Login failed.", "error");
 
-    if (!res.ok) {
-        showError(data.detail || "Login failed.");
-    } else {
-        authToken = data.access_token;
-        currentUser = username;
+    authToken = data.access_token;
+    const me = await fetch("/me", { headers: { "Authorization": "Bearer " + authToken } });
+    const meData = await me.json();
+    currentUser = meData.username;
 
-        // If logged in with email, fetch the real username
-        if (username.includes("@")) {
-            const me = await fetch("/me", {
-                headers: { "Authorization": "Bearer " + authToken }
+    await loadFriends();
+    startApp();
+}
+
+function logout() {
+    if (ws) ws.close();
+    authToken = ""; currentUser = ""; activeFriend = null; chatCache = {};
+    friendsData = { friends: [], online_friends: [], pending_incoming: [], pending_outgoing: [] };
+    document.getElementById("app").classList.remove("visible");
+    document.getElementById("auth-screen").style.display = "block";
+    document.getElementById("login-password").value = "";
+    document.getElementById("active-chat").style.display = "none";
+    document.getElementById("chat-empty-state").style.display = "flex";
+    setAuthMsg("", "");
+}
+
+// ── FRIENDS ─────────────────────────────────────────────
+async function loadFriends() {
+    const res = await fetch("/friends", { headers: { "Authorization": "Bearer " + authToken } });
+    friendsData = await res.json();
+    renderFriendsList();
+    renderRequestsList();
+}
+
+function renderFriendsList() {
+    const panel = document.getElementById("friends-panel");
+    panel.innerHTML = "";
+
+    if (friendsData.friends.length === 0) {
+        panel.innerHTML = `<div style="padding:20px; text-align:center; color:#8696a0; font-size:13px;">
+            No friends yet.<br><br>Click <b>➕ Add Friend</b> to get started!</div>`;
+        return;
+    }
+
+    const sorted = [...friendsData.friends].sort((a, b) =>
+        friendsData.online_friends.includes(b) - friendsData.online_friends.includes(a)
+    );
+
+    sorted.forEach(username => {
+        const isOnline = friendsData.online_friends.includes(username);
+        const lastMsg = getLastMessage(username);
+        const div = document.createElement("div");
+        div.className = "friend-item" + (activeFriend === username ? " active" : "");
+        div.onclick = () => openChat(username);
+        div.innerHTML = `
+            <div class="friend-avatar">${username[0].toUpperCase()}</div>
+            <div class="friend-info">
+                <div class="friend-name">${username}</div>
+                <div class="friend-status ${isOnline ? 'online' : ''}">${isOnline ? "● Online" : "● Offline"}</div>
+                ${lastMsg ? `<div class="friend-preview">${escapeHtml(lastMsg)}</div>` : ""}
+            </div>
+        `;
+        panel.appendChild(div);
+    });
+}
+
+function getLastMessage(username) {
+    const history = chatCache[username];
+    if (!history || history.length === 0) return null;
+    const last = history[history.length - 1];
+    const prefix = last.from_user === currentUser ? "You: " : "";
+    return prefix + last.message;
+}
+
+function renderRequestsList() {
+    const panel = document.getElementById("requests-panel");
+    panel.innerHTML = "";
+
+    const hasIn = friendsData.pending_incoming.length > 0;
+    const hasOut = friendsData.pending_outgoing.length > 0;
+
+    if (!hasIn && !hasOut) {
+        panel.innerHTML = `<div style="padding:20px; text-align:center; color:#8696a0; font-size:13px;">No pending requests</div>`;
+        updateRequestsBadge();
+        return;
+    }
+
+    if (hasIn) {
+        const title = document.createElement("div");
+        title.style = "padding:10px 16px 4px; font-size:11px; color:#8696a0; font-weight:bold; letter-spacing:1px;";
+        title.innerText = "INCOMING";
+        panel.appendChild(title);
+
+        friendsData.pending_incoming.forEach(username => {
+            const div = document.createElement("div");
+            div.className = "request-item";
+            div.innerHTML = `
+                <div class="request-name">👤 ${username}</div>
+                <div class="request-actions">
+                    <button class="accept-btn" onclick="respondRequest('${username}', 'accept')">✅ Accept</button>
+                    <button class="reject-btn" onclick="respondRequest('${username}', 'reject')">✕ Decline</button>
+                </div>`;
+            panel.appendChild(div);
+        });
+    }
+
+    if (hasOut) {
+        const title = document.createElement("div");
+        title.style = "padding:10px 16px 4px; font-size:11px; color:#8696a0; font-weight:bold; letter-spacing:1px;";
+        title.innerText = "SENT";
+        panel.appendChild(title);
+
+        friendsData.pending_outgoing.forEach(username => {
+            const div = document.createElement("div");
+            div.className = "request-item";
+            div.innerHTML = `
+                <div class="request-name">📤 ${username}</div>
+                <div style="font-size:11px; color:#8696a0; margin-top:4px;">Waiting for response...</div>`;
+            panel.appendChild(div);
+        });
+    }
+
+    updateRequestsBadge();
+}
+
+function updateRequestsBadge() {
+    const badge = document.getElementById("req-badge");
+    const count = friendsData.pending_incoming.length;
+    badge.style.display = count > 0 ? "inline" : "none";
+    badge.innerText = count;
+}
+
+function switchSidebarTab(tab) {
+    document.getElementById("friends-panel").style.display = tab === "friends" ? "block" : "none";
+    document.getElementById("requests-panel").style.display = tab === "requests" ? "block" : "none";
+    document.getElementById("stab-friends").classList.toggle("active", tab === "friends");
+    document.getElementById("stab-requests").classList.toggle("active", tab === "requests");
+}
+
+// ── START APP ────────────────────────────────────────────
+function startApp() {
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("app").classList.add("visible");
+    document.getElementById("my-username").innerText = currentUser;
+
+    ws = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`);
+    ws.onopen = () => ws.send(authToken);
+    ws.onmessage = (event) => handleWsMessage(JSON.parse(event.data));
+    ws.onclose = () => showToast("⚠️ Disconnected from server.");
+}
+
+function handleWsMessage(data) {
+    switch (data.type) {
+        case "online_friends":
+            friendsData.online_friends = data.friends;
+            renderFriendsList();
+            if (activeFriend) updateChatHeader();
+            break;
+
+        case "pending_requests":
+            friendsData.pending_incoming = data.requests;
+            renderRequestsList();
+            break;
+
+        case "friend_request":
+            if (!friendsData.pending_incoming.includes(data.from))
+                friendsData.pending_incoming.push(data.from);
+            renderRequestsList();
+            showToast(`👋 ${data.from} sent you a friend request!`);
+            break;
+
+        case "friend_accepted":
+            loadFriends();
+            showToast(data.message);
+            break;
+
+        case "friend_rejected":
+            showToast(data.message);
+            break;
+
+        case "friend_online":
+            if (!friendsData.online_friends.includes(data.username))
+                friendsData.online_friends.push(data.username);
+            renderFriendsList();
+            if (activeFriend === data.username) updateChatHeader();
+            showToast(`🟢 ${data.username} is online`);
+            break;
+
+        case "friend_offline":
+            friendsData.online_friends = friendsData.online_friends.filter(u => u !== data.username);
+            renderFriendsList();
+            if (activeFriend === data.username) updateChatHeader();
+            showToast(`⚫ ${data.username} went offline`);
+            break;
+
+        case "chat":
+            // Incoming message from friend
+            if (!chatCache[data.from]) chatCache[data.from] = [];
+            chatCache[data.from].push({
+                from_user: data.from,
+                to_user: currentUser,
+                message: data.message,
+                created_at: data.time
             });
-            const meData = await me.json();
-            currentUser = meData.username;
-        }
+            if (activeFriend === data.from) renderMessages(data.from);
+            else showToast(`💬 ${data.from}: ${data.message}`);
+            renderFriendsList();
+            break;
 
-        startChat();
+        case "chat_sent":
+            // Our message confirmed by server
+            if (!chatCache[data.to]) chatCache[data.to] = [];
+            chatCache[data.to].push({
+                from_user: currentUser,
+                to_user: data.to,
+                message: data.message,
+                created_at: data.time
+            });
+            if (activeFriend === data.to) renderMessages(data.to);
+            renderFriendsList();
+            break;
+
+        case "error":
+            showToast(data.message);
+            break;
     }
 }
 
-// ── START CHAT ──────────────────────────────────────────
-function startChat() {
-    document.getElementById("auth-screen").style.display = "none";
-    document.getElementById("app").classList.add("visible");
-    document.getElementById("logged-as").innerText = currentUser;
+// ── OPEN CHAT ────────────────────────────────────────────
+async function openChat(username) {
+    activeFriend = username;
+    renderFriendsList();
 
-    ws = new WebSocket(`ws://${location.host}/ws`);
+    document.getElementById("chat-empty-state").style.display = "none";
+    document.getElementById("active-chat").style.display = "flex";
+    document.getElementById("chat-input-area").style.display = "flex";
 
-    ws.onopen = () => {
-        ws.send(authToken);
-    };
+    updateChatHeader();
 
-    ws.onmessage = (event) => {
-        const data = event.data;
+    // Load from DB if not cached yet
+    if (!chatCache[username]) {
+        document.getElementById("loading-msgs").style.display = "flex";
+        document.getElementById("messages").style.display = "none";
 
-        if (data.startsWith("USERS:")) {
-            const users = data.replace("USERS:", "").split(",");
-            const ul = document.getElementById("userList");
-            ul.innerHTML = "";
-            users.forEach(user => {
-                const li = document.createElement("li");
-                li.innerText = user;
-                ul.appendChild(li);
-            });
-            return;
+        const res = await fetch(`/messages/${username}`, {
+            headers: { "Authorization": "Bearer " + authToken }
+        });
+        const data = await res.json();
+        chatCache[username] = data.messages;
+
+        document.getElementById("loading-msgs").style.display = "none";
+        document.getElementById("messages").style.display = "block";
+    }
+
+    renderMessages(username);
+    document.getElementById("msg-input").focus();
+}
+
+function updateChatHeader() {
+    if (!activeFriend) return;
+    const isOnline = friendsData.online_friends.includes(activeFriend);
+    document.getElementById("chat-header-avatar").innerText = activeFriend[0].toUpperCase();
+    document.getElementById("chat-header-name").innerText = activeFriend;
+    const status = document.getElementById("chat-header-status");
+    status.innerText = isOnline ? "● Online" : "● Offline";
+    status.className = isOnline ? "online" : "";
+}
+
+// ── RENDER MESSAGES ──────────────────────────────────────
+function renderMessages(username) {
+    const ul = document.getElementById("messages");
+    ul.innerHTML = "";
+    const history = chatCache[username] || [];
+
+    let lastDate = null;
+
+    history.forEach(({ from_user, message, created_at }) => {
+        const isMe = from_user === currentUser;
+
+        // Date divider
+        const msgDate = formatDate(created_at);
+        if (msgDate !== lastDate) {
+            lastDate = msgDate;
+            const div = document.createElement("li");
+            div.className = "date-divider";
+            div.innerHTML = `<span>${msgDate}</span>`;
+            ul.appendChild(div);
         }
 
         const li = document.createElement("li");
+        li.className = "msg-row " + (isMe ? "me" : "other");
 
-        if (data.includes("joined") || data.includes("left")) {
-            li.className = "system";
-            li.innerText = data;
-        } else {
-            li.classList.add("msg");
-            li.classList.add(data.startsWith(currentUser) || data.startsWith("📤") ? "me" : "other");
-            li.innerText = data;
-        }
+        const bubble = document.createElement("div");
+        bubble.className = "bubble " + (isMe ? "me" : "other");
 
-        document.getElementById("chat").appendChild(li);
-        li.scrollIntoView();
-    };
+        const textSpan = document.createElement("span");
+        textSpan.className = "bubble-text";
+        textSpan.textContent = message;
 
-    ws.onclose = () => {
-        addSystemMsg("⚠️ Disconnected from server.");
-    };
+        const timeSpan = document.createElement("span");
+        timeSpan.className = "bubble-time";
+        timeSpan.textContent = formatTime(created_at);
+
+        bubble.appendChild(textSpan);
+        bubble.appendChild(timeSpan);
+        li.appendChild(bubble);
+        ul.appendChild(li);
+    });
+
+    ul.scrollTop = ul.scrollHeight;
 }
 
-// ── SEND MESSAGE ────────────────────────────────────────
-function send() {
-    const to  = document.getElementById("to").value.trim();
-    const msg = document.getElementById("msg").value.trim();
-    if (!msg) return;
-    ws.send(to ? `${to}|${msg}` : msg);
-    document.getElementById("msg").value = "";
+function formatDate(dateStr) {
+    if (!dateStr) return "Today";
+    const d = new Date(dateStr + (dateStr.includes("Z") ? "" : "Z"));
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (d.toDateString() === today.toDateString()) return "Today";
+    if (d.toDateString() === yesterday.toDateString()) return "Yesterday";
+    return d.toLocaleDateString([], { day: "numeric", month: "long", year: "numeric" });
 }
 
-// ── LOGOUT ──────────────────────────────────────────────
-function logout() {
-    if (ws) ws.close();
-    authToken = "";
-    currentUser = "";
-    document.getElementById("app").classList.remove("visible");
-    document.getElementById("auth-screen").style.display = "block";
-    document.getElementById("chat").innerHTML = "";
-    document.getElementById("userList").innerHTML = "";
-    document.getElementById("login-password").value = "";
-    clearError();
+function formatTime(dateStr) {
+    if (!dateStr) return "";
+    // If it's already HH:MM format (from websocket)
+    if (/^\d{2}:\d{2}$/.test(dateStr)) return dateStr;
+    const d = new Date(dateStr + (dateStr.includes("Z") ? "" : "Z"));
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-function addSystemMsg(text) {
-    const li = document.createElement("li");
-    li.className = "system";
-    li.innerText = text;
-    document.getElementById("chat").appendChild(li);
-    li.scrollIntoView();
+function escapeHtml(text) {
+    return String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// ── SEND MESSAGE ─────────────────────────────────────────
+function sendMessage() {
+    const input = document.getElementById("msg-input");
+    const msg = input.value.trim();
+    if (!msg || !activeFriend) return;
+    ws.send(JSON.stringify({ type: "chat", to: activeFriend, message: msg }));
+    input.value = "";
+}
+
+// ── FRIEND REQUESTS ──────────────────────────────────────
+async function sendFriendRequest(username) {
+    const res = await fetch("/friend/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + authToken },
+        body: JSON.stringify({ to_username: username })
+    });
+    const data = await res.json();
+    showToast(res.ok ? `✅ ${data.message}` : `❌ ${data.detail}`);
+    if (res.ok) { await loadFriends(); searchUsers(); }
+}
+
+async function respondRequest(username, action) {
+    const res = await fetch("/friend/respond", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + authToken },
+        body: JSON.stringify({ from_username: username, action })
+    });
+    const data = await res.json();
+    showToast(res.ok ? data.message : data.detail);
+    await loadFriends();
+}
+
+// ── SEARCH MODAL ─────────────────────────────────────────
+function openModal() {
+    document.getElementById("modal-overlay").classList.add("visible");
+    document.getElementById("search-input").value = "";
+    document.getElementById("search-results").innerHTML = "";
+    setTimeout(() => document.getElementById("search-input").focus(), 100);
+}
+
+function closeModal() {
+    document.getElementById("modal-overlay").classList.remove("visible");
+}
+
+async function searchUsers() {
+    const q = document.getElementById("search-input").value.trim();
+    const results = document.getElementById("search-results");
+    if (!q) { results.innerHTML = ""; return; }
+
+    const res = await fetch(`/users/search?q=${encodeURIComponent(q)}`, {
+        headers: { "Authorization": "Bearer " + authToken }
+    });
+    const data = await res.json();
+    results.innerHTML = "";
+
+    if (data.results.length === 0) {
+        results.innerHTML = `<div style="color:#8696a0; font-size:13px; padding:10px;">No users found.</div>`;
+        return;
+    }
+
+    data.results.forEach(user => {
+        const div = document.createElement("div");
+        div.className = "search-item";
+
+        let btnLabel = "➕ Add";
+        let disabled = false;
+        if (user.is_friend) { btnLabel = "✅ Friends"; disabled = true; }
+        else if (user.request_sent) { btnLabel = "⏳ Sent"; disabled = true; }
+        else if (user.request_received) { btnLabel = "👋 Accept"; }
+
+        div.innerHTML = `
+            <div class="search-item-left">
+                <div class="search-avatar">${user.username[0].toUpperCase()}</div>
+                <span style="font-size:14px; font-weight:600;">${user.username}</span>
+            </div>
+            <button class="add-btn" ${disabled ? "disabled" : ""}
+                onclick="sendFriendRequest('${user.username}')">${btnLabel}</button>`;
+        results.appendChild(div);
+    });
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+    const el = document.getElementById("toast");
+    el.innerText = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
 }
 </script>
-
 </body>
 </html>
