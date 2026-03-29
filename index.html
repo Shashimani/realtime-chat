@@ -34,9 +34,9 @@
     .auth-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 8px rgba(0,0,0,.4)}
     .field{margin-bottom:16px}
     .field label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:7px;letter-spacing:.8px;text-transform:uppercase;font-family:var(--font-head)}
-    .field input{width:100%;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-size:15px;font-family:var(--font-body);outline:none;transition:all .2s}
-    .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,106,255,.15)}
-    .field input::placeholder{color:var(--muted2)}
+    .field input,.field textarea{width:100%;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-size:15px;font-family:var(--font-body);outline:none;transition:all .2s;resize:none}
+    .field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,106,255,.15)}
+    .field input::placeholder,.field textarea::placeholder{color:var(--muted2)}
     .auth-submit{width:100%;padding:14px;margin-top:8px;background:linear-gradient(135deg,var(--accent),#a78bfa);border:none;border-radius:var(--r-sm);color:white;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font-head);box-shadow:0 4px 24px var(--glow)}
     .auth-submit:hover{transform:translateY(-1px)}
     .auth-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
@@ -49,9 +49,9 @@
     .sidebar-head{padding:16px;border-bottom:1px solid var(--border)}
     .user-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--panel);border-radius:var(--r-sm);border:1px solid var(--border);margin-bottom:12px;cursor:pointer;transition:border-color .2s}
     .user-row:hover{border-color:var(--border-hi)}
-    .user-name{flex:1;font-size:14px;font-weight:600;font-family:var(--font-head)}
-    .user-status{font-size:11px;color:var(--green);margin-top:1px}
-    .icon-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:5px;border-radius:7px;transition:all .15s;line-height:1}
+    .user-name{font-size:14px;font-weight:600;font-family:var(--font-head)}
+    .user-status-text{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+    .icon-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:5px;border-radius:7px;transition:all .15s;line-height:1;flex-shrink:0}
     .icon-btn:hover{background:rgba(255,255,255,.06);color:var(--text)}
     .add-btn-full{width:100%;padding:11px;background:linear-gradient(135deg,rgba(124,106,255,.14),rgba(167,139,250,.08));border:1px solid rgba(124,106,255,.28);border-radius:var(--r-sm);color:#a78bfa;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-head);display:flex;align-items:center;justify-content:center;gap:7px}
     .add-btn-full:hover{background:linear-gradient(135deg,rgba(124,106,255,.24),rgba(167,139,250,.16));border-color:rgba(124,106,255,.5)}
@@ -86,23 +86,24 @@
     .chat-empty h2{font-family:var(--font-head);font-size:21px;font-weight:700;color:var(--text);margin-bottom:8px}
     .chat-empty p{font-size:14px}
     .chat-header{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--border);background:rgba(14,16,24,.92);backdrop-filter:blur(20px);position:relative;z-index:2}
+    .ch-info{flex:1}
     .ch-name{font-family:var(--font-head);font-size:16px;font-weight:700}
     .ch-status{font-size:12px;margin-top:2px}
     .ch-status.online{color:var(--green)}
     .ch-status.offline{color:var(--muted)}
-    .call-btns{display:flex;gap:8px;margin-left:auto}
+    .call-btns{display:flex;gap:8px}
     .call-btn{width:36px;height:36px;border-radius:10px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
     .call-btn.audio{background:rgba(124,106,255,.15);color:#a78bfa}
     .call-btn.audio:hover{background:rgba(124,106,255,.3)}
     .call-btn.video{background:rgba(74,222,128,.12);color:var(--green)}
     .call-btn.video:hover{background:rgba(74,222,128,.25)}
-    .msgs-wrap{flex:1;overflow-y:auto;padding:18px 10%;display:flex;flex-direction:column;gap:2px;position:relative;z-index:1}
+    .msgs-wrap{flex:1;overflow-y:auto;padding:16px 8%;display:flex;flex-direction:column;gap:2px;position:relative;z-index:1}
     .date-sep{text-align:center;margin:14px 0}
     .date-sep span{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:4px 14px;border-radius:99px;font-size:11px;font-family:var(--font-head);font-weight:600}
     .msg-row{display:flex}
     .msg-row.me{justify-content:flex-end}
     .msg-row.them{justify-content:flex-start}
-    .bubble-wrap{max-width:62%;display:flex;flex-direction:column}
+    .bubble-wrap{max-width:65%;display:flex;flex-direction:column}
     .msg-row.me .bubble-wrap{align-items:flex-end}
     .msg-row.them .bubble-wrap{align-items:flex-start}
     .bubble{padding:9px 13px 6px;border-radius:17px;font-size:14.5px;line-height:1.5;word-break:break-word;animation:popIn .18s cubic-bezier(.34,1.56,.64,1)}
@@ -111,26 +112,44 @@
     .bubble.them{background:var(--card);border-bottom-left-radius:4px;color:var(--text);border:1px solid var(--border)}
     .bubble.me.cont{border-top-right-radius:4px}
     .bubble.them.cont{border-top-left-radius:4px}
+    .bubble.media{padding:5px 5px 2px;background:transparent;border:none;box-shadow:none}
+    .bubble.media.me{background:transparent}
+    .bubble.media.them{background:transparent;border:none}
     .bubble-text{display:block;white-space:pre-wrap}
-    .bubble-time{font-size:10px;opacity:.55;margin-top:4px;text-align:right}
+    .bubble-time{font-size:10px;opacity:.55;margin-top:4px;text-align:right;padding:0 4px}
+    /* Media messages */
+    .msg-image{max-width:100%;max-height:280px;border-radius:12px;display:block;cursor:pointer;object-fit:cover;border:1px solid var(--border)}
+    .msg-video{max-width:100%;max-height:280px;border-radius:12px;display:block;background:#000}
+    .media-bubble-wrap{position:relative;display:inline-block;border-radius:12px;overflow:hidden;border:1px solid var(--border-hi)}
+    .media-time-overlay{position:absolute;bottom:6px;right:8px;font-size:10px;color:white;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:6px;backdrop-filter:blur(4px)}
+    /* upload progress */
+    .upload-progress{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border-radius:12px;border:1px solid var(--border);font-size:13px;color:var(--muted)}
+    .progress-bar{flex:1;height:4px;background:var(--muted2);border-radius:99px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#a78bfa);border-radius:99px;transition:width .3s}
+    /* Input bar */
     .loading-msgs{flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;gap:8px}
     .spinner{width:16px;height:16px;border:2px solid var(--muted2);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .input-bar{padding:14px 20px;border-top:1px solid var(--border);background:rgba(14,16,24,.94);backdrop-filter:blur(20px);display:flex;align-items:center;gap:10px;position:relative;z-index:2}
-    .msg-input{flex:1;padding:12px 18px;background:var(--panel);border:1px solid var(--border);border-radius:24px;color:var(--text);font-size:15px;font-family:var(--font-body);outline:none;transition:all .2s}
+    .input-bar{padding:12px 16px;border-top:1px solid var(--border);background:rgba(14,16,24,.94);backdrop-filter:blur(20px);display:flex;align-items:flex-end;gap:8px;position:relative;z-index:2}
+    .msg-input{flex:1;padding:10px 16px;background:var(--panel);border:1px solid var(--border);border-radius:20px;color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;transition:all .2s;resize:none;max-height:120px;line-height:1.5}
     .msg-input:focus{border-color:rgba(124,106,255,.5);box-shadow:0 0 0 3px rgba(124,106,255,.1)}
     .msg-input::placeholder{color:var(--muted)}
-    .send-btn{width:46px;height:46px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#a78bfa);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;box-shadow:0 4px 16px var(--glow)}
+    .attach-btn{width:38px;height:38px;border-radius:12px;flex-shrink:0;background:var(--panel);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+    .attach-btn:hover{background:rgba(124,106,255,.15);border-color:rgba(124,106,255,.3);color:#a78bfa}
+    .send-btn{width:38px;height:38px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#a78bfa);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;box-shadow:0 4px 16px var(--glow)}
     .send-btn:hover{transform:translateY(-2px) scale(1.05)}
     .send-btn:active{transform:scale(.96)}
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .lightbox img,.lightbox video{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain}
+    .lightbox-close{position:absolute;top:20px;right:24px;font-size:28px;color:white;cursor:pointer;background:rgba(255,255,255,.1);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 
-    /* CALL SCREEN */
-    .call-screen{position:fixed;inset:0;background:rgba(5,6,10,.96);backdrop-filter:blur(20px);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;animation:fadeIn .2s ease}
-    .call-remote-video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:0}
+    /* CALL */
+    .call-screen{position:fixed;inset:0;background:rgba(5,6,10,.96);backdrop-filter:blur(20px);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+    .call-remote-video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
     .call-local-video{position:absolute;bottom:120px;right:24px;width:140px;height:190px;object-fit:cover;border-radius:16px;border:2px solid var(--border-hi);box-shadow:0 8px 32px rgba(0,0,0,.5)}
     .call-info{position:relative;z-index:2;text-align:center}
-    .call-avatar-wrap{margin:0 auto 16px}
-    .call-name{font-family:var(--font-head);font-size:26px;font-weight:800;margin-bottom:6px}
+    .call-name{font-family:var(--font-head);font-size:26px;font-weight:800;margin:16px 0 6px}
     .call-status{font-size:14px;color:var(--muted)}
     .call-status.pulse{animation:pulse 1.5s ease-in-out infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
@@ -139,14 +158,12 @@
     .ctrl-btn:hover{transform:scale(1.1)}
     .ctrl-btn.end{background:#ff3b30;box-shadow:0 4px 20px rgba(255,59,48,.4)}
     .ctrl-btn.mute{background:var(--panel);border:1px solid var(--border)}
-    .ctrl-btn.mute.active{background:rgba(255,59,48,.2);border-color:rgba(255,59,48,.4);color:#ff3b30}
+    .ctrl-btn.mute.active{background:rgba(255,59,48,.2);border-color:rgba(255,59,48,.4)}
     .ctrl-btn.cam{background:var(--panel);border:1px solid var(--border)}
-    .ctrl-btn.cam.active{background:rgba(255,59,48,.2);border-color:rgba(255,59,48,.4);color:#ff3b30}
-
-    /* INCOMING CALL */
+    .ctrl-btn.cam.active{background:rgba(255,59,48,.2);border-color:rgba(255,59,48,.4)}
     .incoming-call{position:fixed;top:24px;right:24px;background:var(--surface);border:1px solid var(--border-hi);border-radius:20px;padding:20px 24px;z-index:300;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:slideInRight .3s cubic-bezier(.16,1,.3,1);min-width:280px}
     @keyframes slideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-    .ic-title{font-family:var(--font-head);font-size:13px;color:var(--muted);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
+    .ic-title{font-family:var(--font-head);font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
     .ic-name{font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:4px}
     .ic-type{font-size:12px;color:var(--muted);margin-bottom:16px}
     .ic-btns{display:flex;gap:10px}
@@ -154,39 +171,56 @@
     .ic-reject{flex:1;padding:10px;background:var(--red);border:none;color:white;border-radius:10px;cursor:pointer;font-weight:700;font-family:var(--font-head);font-size:13px}
 
     /* MODALS */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(10px);animation:fadeIn .15s ease}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(12px);animation:fadeIn .15s ease}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .modal{width:400px;background:var(--surface);border-radius:22px;border:1px solid var(--border-hi);padding:28px;box-shadow:0 40px 100px rgba(0,0,0,.7);animation:slideUp .25s cubic-bezier(.16,1,.3,1)}
+    .modal{width:420px;background:var(--surface);border-radius:22px;border:1px solid var(--border-hi);padding:28px;box-shadow:0 40px 100px rgba(0,0,0,.7);animation:slideUp .25s cubic-bezier(.16,1,.3,1);max-height:90vh;overflow-y:auto}
     @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     .modal-title{font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
     .modal-input{width:100%;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:14px;transition:all .2s}
     .modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,106,255,.12)}
     .modal-input::placeholder{color:var(--muted)}
-    .search-results{max-height:270px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+    .search-results{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
     .search-row{display:flex;align-items:center;gap:11px;padding:10px 12px;background:var(--panel);border-radius:var(--r-sm);border:1px solid var(--border)}
     .search-name{flex:1;font-size:14px;font-weight:600;font-family:var(--font-head)}
-    .s-action{padding:6px 15px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--font-head);transition:all .15s;white-space:nowrap}
+    .s-action{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--font-head);transition:all .15s;white-space:nowrap}
     .s-action.add{background:linear-gradient(135deg,var(--accent),#a78bfa);color:white}
     .s-action.add:hover{transform:scale(1.05)}
     .s-action.dis{background:var(--muted2);color:var(--muted);cursor:default}
     .modal-close{width:100%;margin-top:14px;padding:11px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--muted);cursor:pointer;font-size:14px;font-family:var(--font-head);transition:all .15s}
     .modal-close:hover{border-color:var(--border-hi);color:var(--text)}
+    .modal-save{width:100%;margin-top:12px;padding:12px;background:linear-gradient(135deg,var(--accent),#a78bfa);border:none;border-radius:var(--r-sm);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-head)}
 
-    /* PROFILE MODAL */
-    .profile-modal{width:340px}
-    .avatar-upload-area{display:flex;justify-content:center;margin-bottom:22px}
+    /* PROFILE */
+    .profile-modal{width:380px}
+    .avatar-section{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:20px}
     .big-avatar-wrap{position:relative;cursor:pointer;width:90px;height:90px}
     .big-avatar{width:90px;height:90px;border-radius:50%;overflow:hidden;border:3px solid var(--border-hi);box-shadow:0 8px 28px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:34px;color:white}
     .big-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-    .av-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font-size:22px;opacity:0;transition:opacity .2s}
+    .av-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font-size:20px;opacity:0;transition:opacity .2s}
     .big-avatar-wrap:hover .av-overlay{opacity:1}
-    .profile-info{background:var(--panel);border-radius:var(--r-sm);padding:14px;border:1px solid var(--border)}
+    .profile-info{background:var(--panel);border-radius:var(--r-sm);padding:14px;border:1px solid var(--border);margin-bottom:14px}
     .info-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
     .info-row+.info-row{border-top:1px solid var(--border)}
     .info-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-family:var(--font-head)}
     .info-val{font-size:14px;font-weight:500}
-    .logout-btn{width:100%;margin-top:14px;padding:12px;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.25);border-radius:var(--r-sm);color:#ff8080;cursor:pointer;font-size:14px;font-weight:700;font-family:var(--font-head);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .edit-field{margin-bottom:12px}
+    .edit-field label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.6px;text-transform:uppercase;font-family:var(--font-head)}
+    .edit-field input,.edit-field textarea{width:100%;padding:10px 13px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;transition:all .2s;resize:none}
+    .edit-field input:focus,.edit-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,106,255,.12)}
+    .logout-btn{width:100%;padding:12px;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.25);border-radius:var(--r-sm);color:#ff8080;cursor:pointer;font-size:14px;font-weight:700;font-family:var(--font-head);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
     .logout-btn:hover{background:rgba(255,80,80,.18);border-color:rgba(255,80,80,.45)}
+
+    /* AVATAR CROP MODAL */
+    .crop-modal{width:440px}
+    .crop-container{position:relative;width:100%;height:320px;background:#000;border-radius:12px;overflow:hidden;margin-bottom:16px;cursor:crosshair}
+    .crop-image{position:absolute;transform-origin:center;user-select:none;-webkit-user-drag:none}
+    .crop-circle-overlay{position:absolute;inset:0;pointer-events:none}
+    .crop-controls{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .crop-controls label{font-size:12px;color:var(--muted);font-family:var(--font-head);white-space:nowrap}
+    .crop-controls input[type=range]{flex:1;accent-color:var(--accent)}
+    .crop-actions{display:flex;gap:10px}
+    .crop-confirm{flex:1;padding:11px;background:linear-gradient(135deg,var(--accent),#a78bfa);border:none;border-radius:var(--r-sm);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-head)}
+    .crop-cancel{flex:1;padding:11px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--muted);font-size:14px;cursor:pointer;font-family:var(--font-head)}
 
     /* TOAST */
     .toast-wrap{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:999;pointer-events:none}
@@ -197,47 +231,26 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef, useCallback, useReducer } = React;
 
 const COLORS=[['#7c6aff','#a78bfa'],['#ff6ab0','#ff8ec4'],['#06b6d4','#67e8f9'],['#f59e0b','#fbbf24'],['#10b981','#34d399'],['#ef4444','#f87171']];
 function gradBg(n){const i=n?n.charCodeAt(0)%COLORS.length:0;const[a,b]=COLORS[i];return`linear-gradient(135deg,${a},${b})`}
+function stripQ(url){return url?url.split('?')[0]:null}
 
-// Strip Cloudinary transformations to get raw URL for cache busting
-function rawAvatarUrl(url){
-  if(!url) return null;
-  // Remove any query string we added previously
-  return url.split('?')[0];
-}
-
+// ── AVATAR ──────────────────────────────────────────────
 function Avatar({username,avatarUrl,size=40,circle=false,fontSize=16,style={}}){
-  const [ver,setVer]=useState(Date.now());
   const [err,setErr]=useState(false);
-  const prevUrl=useRef(avatarUrl);
-
-  useEffect(()=>{
-    if(avatarUrl!==prevUrl.current){
-      prevUrl.current=avatarUrl;
-      setErr(false);
-      setVer(Date.now()); // force reload when url changes
-    }
-  },[avatarUrl]);
-
+  const [ver,setVer]=useState(Date.now());
+  const prev=useRef(avatarUrl);
+  useEffect(()=>{if(avatarUrl!==prev.current){prev.current=avatarUrl;setErr(false);setVer(Date.now());}},[avatarUrl]);
   const radius=circle?'50%':Math.round(size*.3)+'px';
   const base={width:size,height:size,borderRadius:radius,flexShrink:0,...style};
-  const raw=rawAvatarUrl(avatarUrl);
-
-  if(raw&&!err){
-    return <img src={`${raw}?v=${ver}`} alt={username}
-      style={{...base,objectFit:'cover',display:'block'}}
-      onError={()=>setErr(true)} />;
-  }
-  return <div style={{...base,background:gradBg(username||''),display:'flex',alignItems:'center',
-    justifyContent:'center',color:'white',fontFamily:'Syne,sans-serif',fontWeight:700,fontSize}}>
-    {(username||'?')[0].toUpperCase()}
-  </div>;
+  const raw=stripQ(avatarUrl);
+  if(raw&&!err) return <img src={`${raw}?v=${ver}`} alt={username} style={{...base,objectFit:'cover',display:'block'}} onError={()=>setErr(true)}/>;
+  return <div style={{...base,background:gradBg(username||''),display:'flex',alignItems:'center',justifyContent:'center',color:'white',fontFamily:'Syne,sans-serif',fontWeight:700,fontSize}}>{(username||'?')[0].toUpperCase()}</div>;
 }
 
-// TOAST
+// ── TOAST ───────────────────────────────────────────────
 function useToast(){
   const [toasts,setToasts]=useState([]);
   const show=useCallback((msg)=>{
@@ -249,7 +262,233 @@ function useToast(){
 }
 function Toasts({toasts}){return <div className="toast-wrap">{toasts.map(t=><div key={t.id} className="toast">{t.msg}</div>)}</div>}
 
-// AUTH SCREEN
+// ── FORMAT DATE/TIME ─────────────────────────────────────
+function fmtDate(d){
+  if(!d) return 'Today';
+  const dt=new Date(d.endsWith('Z')||d.includes('+')?d:d+'Z');
+  if(isNaN(dt)) return 'Today';
+  const now=new Date(),yest=new Date(now);yest.setDate(yest.getDate()-1);
+  if(dt.toDateString()===now.toDateString()) return 'Today';
+  if(dt.toDateString()===yest.toDateString()) return 'Yesterday';
+  return dt.toLocaleDateString([],{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+function fmtTime(d){
+  if(!d) return '';
+  if(/^\d{2}:\d{2}$/.test(d)) return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const dt=new Date(d.endsWith('Z')||d.includes('+')?d:d+'Z');
+  if(isNaN(dt)) return '';
+  return dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+
+// ── AVATAR CROP MODAL ────────────────────────────────────
+function AvatarCropModal({imageSrc,onConfirm,onCancel}){
+  const [scale,setScale]=useState(1);
+  const [pos,setPos]=useState({x:0,y:0});
+  const [dragging,setDragging]=useState(false);
+  const dragStart=useRef(null);
+  const imgRef=useRef();
+  const containerRef=useRef();
+  const CONTAINER=320;
+  const CIRCLE=220;
+
+  function onMouseDown(e){
+    setDragging(true);
+    dragStart.current={mx:e.clientX,my:e.clientY,px:pos.x,py:pos.y};
+  }
+  function onMouseMove(e){
+    if(!dragging||!dragStart.current) return;
+    setPos({x:dragStart.current.px+(e.clientX-dragStart.current.mx),y:dragStart.current.py+(e.clientY-dragStart.current.my)});
+  }
+  function onMouseUp(){setDragging(false);}
+
+  async function confirm(){
+    const img=imgRef.current;
+    if(!img) return;
+    const canvas=document.createElement('canvas');
+    canvas.width=400;canvas.height=400;
+    const ctx=canvas.getContext('2d');
+    ctx.beginPath();ctx.arc(200,200,200,0,Math.PI*2);ctx.clip();
+    const cw=containerRef.current.offsetWidth;
+    const ch=containerRef.current.offsetHeight;
+    const cx=cw/2,cy=ch/2;
+    const imgW=img.naturalWidth*scale*(CONTAINER/img.naturalHeight);
+    const imgH=img.naturalHeight*scale*(CONTAINER/img.naturalHeight);
+    const sx=((cx-CIRCLE/2)-(cw/2-imgW/2+pos.x))*(img.naturalWidth/imgW);
+    const sy=((cy-CIRCLE/2)-(ch/2-imgH/2+pos.y))*(img.naturalHeight/imgH);
+    const sw=CIRCLE*(img.naturalWidth/imgW);
+    const sh=CIRCLE*(img.naturalHeight/imgH);
+    ctx.drawImage(img,sx,sy,sw,sh,0,0,400,400);
+    canvas.toBlob(blob=>onConfirm(blob),'image/jpeg',0.9);
+  }
+
+  return(
+    <div className="overlay">
+      <div className="modal crop-modal">
+        <div className="modal-title">✂️ Adjust Profile Picture</div>
+        <div className="crop-container" ref={containerRef}
+          onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onMouseUp} onMouseLeave={onMouseUp}>
+          <img ref={imgRef} src={imageSrc} className="crop-image"
+            style={{transform:`translate(calc(-50% + ${pos.x}px),calc(-50% + ${pos.y}px)) scale(${scale})`,
+              top:'50%',left:'50%',height:CONTAINER+'px',width:'auto',maxWidth:'none'}}
+            draggable={false}/>
+          <svg className="crop-circle-overlay" viewBox={`0 0 ${CONTAINER} ${CONTAINER}`}>
+            <defs>
+              <mask id="circleMask">
+                <rect width="100%" height="100%" fill="white"/>
+                <circle cx={CONTAINER/2} cy={CONTAINER/2} r={CIRCLE/2} fill="black"/>
+              </mask>
+            </defs>
+            <rect width="100%" height="100%" fill="rgba(0,0,0,0.6)" mask="url(#circleMask)"/>
+            <circle cx={CONTAINER/2} cy={CONTAINER/2} r={CIRCLE/2} fill="none" stroke="white" strokeWidth="2" strokeDasharray="6 3"/>
+          </svg>
+        </div>
+        <div className="crop-controls">
+          <label>Zoom</label>
+          <input type="range" min="0.5" max="3" step="0.05" value={scale} onChange={e=>setScale(+e.target.value)}/>
+          <span style={{fontSize:12,color:'var(--muted)',width:32}}>{Math.round(scale*100)}%</span>
+        </div>
+        <div style={{fontSize:11,color:'var(--muted)',textAlign:'center',marginBottom:14}}>Drag to reposition · Scroll zoom slider to adjust</div>
+        <div className="crop-actions">
+          <button className="crop-cancel" onClick={onCancel}>Cancel</button>
+          <button className="crop-confirm" onClick={confirm}>Apply & Upload</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── PROFILE MODAL ────────────────────────────────────────
+function ProfileModal({me,myEmail,myAvatar,myBio,myStatus,token,onClose,onLogout,onAvatarUpdate,onProfileUpdate}){
+  const [cropSrc,setCropSrc]=useState(null);
+  const [uploading,setUploading]=useState(false);
+  const [bio,setBio]=useState(myBio||'');
+  const [status,setStatus]=useState(myStatus||'');
+  const [saving,setSaving]=useState(false);
+  const fileRef=useRef();
+
+  function handleFileSelect(e){
+    const file=e.target.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=ev=>setCropSrc(ev.target.result);
+    reader.readAsDataURL(file);
+    e.target.value='';
+  }
+
+  async function handleCropConfirm(blob){
+    setCropSrc(null);
+    setUploading(true);
+    const fd=new FormData();
+    fd.append('file',new File([blob],'avatar.jpg',{type:'image/jpeg'}));
+    try{
+      const r=await fetch('/upload-avatar',{method:'POST',headers:{Authorization:'Bearer '+token},body:fd});
+      const d=await r.json();
+      if(r.ok) onAvatarUpdate(d.avatar_url);
+    }catch{}
+    setUploading(false);
+  }
+
+  async function saveProfile(){
+    setSaving(true);
+    try{
+      const r=await fetch('/update-profile',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({bio,status})});
+      if(r.ok) onProfileUpdate(bio,status);
+    }catch{}
+    setSaving(false);
+  }
+
+  if(cropSrc) return <AvatarCropModal imageSrc={cropSrc} onConfirm={handleCropConfirm} onCancel={()=>setCropSrc(null)}/>;
+
+  return(
+    <div className="overlay" onClick={e=>e.currentTarget===e.target&&onClose()}>
+      <div className="modal profile-modal">
+        <div className="modal-title">👤 My Profile</div>
+        <div className="avatar-section">
+          <div className="big-avatar-wrap" onClick={()=>!uploading&&fileRef.current.click()} title="Click to change photo">
+            <div className="big-avatar" style={{background:!myAvatar?gradBg(me):undefined}}>
+              {myAvatar?<img src={stripQ(myAvatar)+'?v='+Date.now()} alt={me} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>e.target.style.display='none'}/>
+                :<span>{me[0]?.toUpperCase()}</span>}
+            </div>
+            <div className="av-overlay">{uploading?'⏳':'📷'}</div>
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" style={{display:'none'}} onChange={handleFileSelect}/>
+        </div>
+
+        <div className="profile-info" style={{marginBottom:16}}>
+          <div className="info-row"><span className="info-lbl">Username</span><span className="info-val">{me}</span></div>
+          <div className="info-row"><span className="info-lbl">Email</span><span className="info-val" style={{fontSize:13,color:'var(--muted)'}}>{myEmail}</span></div>
+        </div>
+
+        <div className="edit-field">
+          <label>Status</label>
+          <input value={status} onChange={e=>setStatus(e.target.value)} placeholder="What's on your mind?" maxLength={120}/>
+        </div>
+        <div className="edit-field">
+          <label>Bio</label>
+          <textarea value={bio} onChange={e=>setBio(e.target.value)} placeholder="Tell people about yourself..." rows={3} maxLength={300}/>
+        </div>
+
+        <button className="modal-save" disabled={saving} onClick={saveProfile}>{saving?'Saving...':'Save Changes'}</button>
+        <button className="logout-btn" style={{marginTop:12}} onClick={onLogout}>🚪 Sign Out</button>
+        <button className="modal-close" onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+}
+
+// ── LIGHTBOX ─────────────────────────────────────────────
+function Lightbox({src,type,onClose}){
+  return(
+    <div className="lightbox" onClick={onClose}>
+      <div className="lightbox-close" onClick={onClose}>✕</div>
+      {type==='video'
+        ?<video src={src} controls autoPlay onClick={e=>e.stopPropagation()} style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12}}/>
+        :<img src={src} alt="media" onClick={e=>e.stopPropagation()}/>
+      }
+    </div>
+  );
+}
+
+// ── CALL SCREEN ──────────────────────────────────────────
+function CallScreen({call,avatarCache,onEnd,onAccept,onReject}){
+  const localVidRef=useRef();const remoteVidRef=useRef();
+  const [muted,setMuted]=useState(false);const [camOff,setCamOff]=useState(false);
+  const peer=call.username;const isVideo=call.callType==='video';
+  useEffect(()=>{
+    if(call.localStream&&localVidRef.current){localVidRef.current.srcObject=call.localStream;localVidRef.current.muted=true;}
+    if(call.remoteStream&&remoteVidRef.current) remoteVidRef.current.srcObject=call.remoteStream;
+  },[call.localStream,call.remoteStream]);
+  function toggleMute(){if(call.localStream){call.localStream.getAudioTracks().forEach(t=>t.enabled=muted);setMuted(!muted);}}
+  function toggleCam(){if(call.localStream){call.localStream.getVideoTracks().forEach(t=>t.enabled=camOff);setCamOff(!camOff);}}
+  if(call.state==='incoming') return(
+    <div className="incoming-call">
+      <div className="ic-title">Incoming {isVideo?'Video':'Audio'} Call</div>
+      <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+        <Avatar username={peer} avatarUrl={avatarCache[peer]} size={44} circle={true} fontSize={18}/>
+        <div><div className="ic-name">{peer}</div><div className="ic-type">{isVideo?'📹 Video Call':'🎙️ Audio Call'}</div></div>
+      </div>
+      <div className="ic-btns"><button className="ic-accept" onClick={onAccept}>Accept</button><button className="ic-reject" onClick={onReject}>Decline</button></div>
+    </div>
+  );
+  return(
+    <div className="call-screen">
+      {isVideo&&<video ref={remoteVidRef} className="call-remote-video" autoPlay playsInline/>}
+      {isVideo&&call.localStream&&<video ref={localVidRef} className="call-local-video" autoPlay playsInline muted/>}
+      <div className="call-info">
+        {(!isVideo||call.state!=='active')&&<div style={{margin:'0 auto 16px'}}><Avatar username={peer} avatarUrl={avatarCache[peer]} size={90} circle={true} fontSize={36}/></div>}
+        <div className="call-name">{peer}</div>
+        <div className={`call-status ${call.state==='calling'?'pulse':''}`}>{call.state==='calling'?'Calling...':(call.state==='active'?'🟢 Connected':'Connecting...')}</div>
+      </div>
+      <div className="call-controls">
+        <button className={`ctrl-btn mute ${muted?'active':''}`} onClick={toggleMute}>{muted?'🔇':'🎙️'}</button>
+        <button className="ctrl-btn end" onClick={onEnd}>📵</button>
+        {isVideo&&<button className={`ctrl-btn cam ${camOff?'active':''}`} onClick={toggleCam}>{camOff?'📷':'📸'}</button>}
+      </div>
+    </div>
+  );
+}
+
+// ── AUTH SCREEN ──────────────────────────────────────────
 function AuthScreen({onLogin}){
   const [tab,setTab]=useState('login');
   const [f,setF]=useState({username:'',email:'',password:''});
@@ -265,10 +504,9 @@ function AuthScreen({onLogin}){
       const d=await r.json();
       if(!r.ok) return setMsg({text:d.detail||'Login failed.',type:'error'});
       const me=await(await fetch('/me',{headers:{Authorization:'Bearer '+d.access_token}})).json();
-      // Save token to localStorage for persistence across refresh
       localStorage.setItem('chatterly_token',d.access_token);
-      localStorage.setItem('chatterly_user',JSON.stringify({username:me.username,email:me.email,avatar_url:me.avatar_url}));
-      onLogin(d.access_token,me.username,me.email,me.avatar_url);
+      localStorage.setItem('chatterly_user',JSON.stringify(me));
+      onLogin(d.access_token,me);
     }catch{setMsg({text:'Connection error.',type:'error'});}
     finally{setLoading(false);}
   }
@@ -320,147 +558,10 @@ function AuthScreen({onLogin}){
   );
 }
 
-// PROFILE MODAL
-function ProfileModal({me,myEmail,myAvatar,token,onClose,onLogout,onAvatarUpdate}){
-  const [uploading,setUploading]=useState(false);
-  const fileRef=useRef();
-
-  async function handleFile(e){
-    const file=e.target.files[0];
-    if(!file) return;
-    setUploading(true);
-    const fd=new FormData();fd.append('file',file);
-    try{
-      const r=await fetch('/upload-avatar',{method:'POST',headers:{Authorization:'Bearer '+token},body:fd});
-      const d=await r.json();
-      if(r.ok){
-        onAvatarUpdate(d.avatar_url);
-        // Update localStorage
-        const stored=JSON.parse(localStorage.getItem('chatterly_user')||'{}');
-        stored.avatar_url=d.avatar_url;
-        localStorage.setItem('chatterly_user',JSON.stringify(stored));
-      }
-    }catch{}
-    setUploading(false);
-    e.target.value='';
-  }
-
-  return(
-    <div className="overlay" onClick={e=>e.currentTarget===e.target&&onClose()}>
-      <div className="modal profile-modal">
-        <div className="modal-title">👤 Profile</div>
-        <div className="avatar-upload-area">
-          <div className="big-avatar-wrap" onClick={()=>!uploading&&fileRef.current.click()} title="Click to upload photo">
-            <div className="big-avatar" style={{background:!myAvatar?gradBg(me):undefined}}>
-              {myAvatar
-                ? <img src={rawAvatarUrl(myAvatar)+'?v='+Date.now()} alt={me} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>{e.target.style.display='none'}}/>
-                : <span>{me[0]?.toUpperCase()}</span>
-              }
-            </div>
-            <div className="av-overlay">{uploading?'⏳':'📷'}</div>
-          </div>
-          <input ref={fileRef} type="file" accept="image/*" style={{display:'none'}} onChange={handleFile}/>
-        </div>
-        <div className="profile-info">
-          <div className="info-row"><span className="info-lbl">Username</span><span className="info-val">{me}</span></div>
-          <div className="info-row"><span className="info-lbl">Email</span><span className="info-val" style={{fontSize:13,color:'var(--muted)'}}>{myEmail}</span></div>
-        </div>
-        <button className="logout-btn" onClick={onLogout}>🚪 Sign Out</button>
-        <button className="modal-close" onClick={onClose}>Close</button>
-      </div>
-    </div>
-  );
-}
-
-// CALL SCREEN
-function CallScreen({call,me,avatarCache,onEnd,onAccept,onReject}){
-  const localVidRef=useRef();
-  const remoteVidRef=useRef();
-  const [muted,setMuted]=useState(false);
-  const [camOff,setCamOff]=useState(false);
-  const peer=call.username;
-  const isVideo=call.callType==='video';
-
-  useEffect(()=>{
-    if(call.localStream){
-      if(localVidRef.current){localVidRef.current.srcObject=call.localStream;localVidRef.current.muted=true;}
-    }
-    if(call.remoteStream&&remoteVidRef.current){
-      remoteVidRef.current.srcObject=call.remoteStream;
-    }
-  },[call.localStream,call.remoteStream]);
-
-  function toggleMute(){
-    if(call.localStream){
-      call.localStream.getAudioTracks().forEach(t=>t.enabled=muted);
-      setMuted(!muted);
-    }
-  }
-
-  function toggleCam(){
-    if(call.localStream){
-      call.localStream.getVideoTracks().forEach(t=>t.enabled=camOff);
-      setCamOff(!camOff);
-    }
-  }
-
-  if(call.state==='incoming'){
-    return(
-      <div className="incoming-call">
-        <div className="ic-title">Incoming Call</div>
-        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
-          <Avatar username={peer} avatarUrl={avatarCache[peer]} size={44} circle={true} fontSize={18}/>
-          <div>
-            <div className="ic-name">{peer}</div>
-            <div className="ic-type">{isVideo?'📹 Video Call':'🎙️ Audio Call'}</div>
-          </div>
-        </div>
-        <div className="ic-btns">
-          <button className="ic-accept" onClick={onAccept}>Accept</button>
-          <button className="ic-reject" onClick={onReject}>Decline</button>
-        </div>
-      </div>
-    );
-  }
-
-  return(
-    <div className="call-screen">
-      {isVideo&&<video ref={remoteVidRef} className="call-remote-video" autoPlay playsInline/>}
-      {isVideo&&call.localStream&&<video ref={localVidRef} className="call-local-video" autoPlay playsInline muted/>}
-
-      <div className="call-info">
-        {(!isVideo||call.state!=='active')&&(
-          <div className="call-avatar-wrap">
-            <Avatar username={peer} avatarUrl={avatarCache[peer]} size={90} circle={true} fontSize={36}/>
-          </div>
-        )}
-        <div className="call-name">{peer}</div>
-        <div className={`call-status ${call.state==='calling'?'pulse':''}`}>
-          {call.state==='calling'?'Calling...':(call.state==='active'?`🟢 Connected`:'Connecting...')}
-        </div>
-      </div>
-
-      <div className="call-controls">
-        <button className={`ctrl-btn mute ${muted?'active':''}`} onClick={toggleMute} title={muted?'Unmute':'Mute'}>
-          {muted?'🔇':'🎙️'}
-        </button>
-        <button className="ctrl-btn end" onClick={onEnd} title="End call">📵</button>
-        {isVideo&&(
-          <button className={`ctrl-btn cam ${camOff?'active':''}`} onClick={toggleCam} title={camOff?'Camera on':'Camera off'}>
-            {camOff?'📷':'📸'}
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// MAIN APP
+// ── MAIN APP ─────────────────────────────────────────────
 function App(){
   const [token,setToken]=useState(null);
-  const [me,setMe]=useState('');
-  const [myEmail,setMyEmail]=useState('');
-  const [myAvatar,setMyAvatar]=useState(null);
+  const [myProfile,setMyProfile]=useState({username:'',email:'',avatar_url:null,bio:'',status:''});
   const [fd,setFd]=useState({friends:[],friends_info:[],online_friends:[],pending_incoming:[],pending_outgoing:[]});
   const [activeChat,setActiveChat]=useState(null);
   const [chatCache,setChatCache]=useState({});
@@ -472,205 +573,151 @@ function App(){
   const [searchRes,setSearchRes]=useState([]);
   const [msgInput,setMsgInput]=useState('');
   const [avatarCache,setAvatarCache]=useState({});
-  const [call,setCall]=useState(null); // { state, username, callType, localStream, remoteStream }
+  const [statusCache,setStatusCache]=useState({});
+  const [call,setCall]=useState(null);
+  const [lightbox,setLightbox]=useState(null);
+  const [uploadProgress,setUploadProgress]=useState(null);
   const {toasts,show:toast}=useToast();
   const wsRef=useRef(null);
   const msgsEndRef=useRef(null);
   const activeChatRef=useRef(null);
   const tokenRef=useRef(null);
-  const meRef=useRef('');
-  const pcRef=useRef(null); // RTCPeerConnection
+  const pcRef=useRef(null);
+  const fileInputRef=useRef();
 
   useEffect(()=>{activeChatRef.current=activeChat;},[activeChat]);
   useEffect(()=>{tokenRef.current=token;},[token]);
-  useEffect(()=>{meRef.current=me;},[me]);
 
-  // ── AUTO LOGIN ON REFRESH ──────────────────────────────
+  // AUTO LOGIN
   useEffect(()=>{
-    const savedToken=localStorage.getItem('chatterly_token');
-    const savedUser=localStorage.getItem('chatterly_user');
-    if(savedToken&&savedUser){
-      try{
-        const user=JSON.parse(savedUser);
-        // Verify token is still valid
-        fetch('/me',{headers:{Authorization:'Bearer '+savedToken}})
-          .then(r=>r.ok?r.json():Promise.reject())
-          .then(data=>{
-            tokenRef.current=savedToken;
-            setToken(savedToken);
-            setMe(data.username);meRef.current=data.username;
-            setMyEmail(data.email);
-            setMyAvatar(data.avatar_url);
-            loadFriends(savedToken);
-            connectWs(savedToken);
-          })
-          .catch(()=>{
-            localStorage.removeItem('chatterly_token');
-            localStorage.removeItem('chatterly_user');
-          });
-      }catch{}
+    const t=localStorage.getItem('chatterly_token');
+    const u=localStorage.getItem('chatterly_user');
+    if(t&&u){
+      fetch('/me',{headers:{Authorization:'Bearer '+t}})
+        .then(r=>r.ok?r.json():Promise.reject())
+        .then(data=>{
+          tokenRef.current=t;setToken(t);setMyProfile(data);
+          loadFriends(t);connectWs(t);
+        })
+        .catch(()=>{localStorage.removeItem('chatterly_token');localStorage.removeItem('chatterly_user');});
     }
   },[]);
 
   const loadFriends=useCallback(async(tok)=>{
-    const t=tok||tokenRef.current;
-    if(!t) return;
+    const t=tok||tokenRef.current;if(!t) return;
     try{
       const r=await fetch('/friends',{headers:{Authorization:'Bearer '+t}});
       if(!r.ok) return;
       const data=await r.json();
       setFd(data);
       if(data.friends_info){
-        const ac={};
-        data.friends_info.forEach(f=>{if(f.avatar_url) ac[f.username]=f.avatar_url;});
-        setAvatarCache(p=>({...p,...ac}));
+        const ac={};const sc={};
+        data.friends_info.forEach(f=>{if(f.avatar_url) ac[f.username]=f.avatar_url;if(f.status) sc[f.username]=f.status;});
+        setAvatarCache(p=>({...p,...ac}));setStatusCache(p=>({...p,...sc}));
       }
     }catch{}
   },[]);
 
-  // ── WEBRTC ─────────────────────────────────────────────
-  async function getMedia(video=false){
-    return navigator.mediaDevices.getUserMedia({audio:true,video});
-  }
-
-  function createPeerConnection(toUser,isVideo){
+  // WEBRTC
+  async function getMedia(video=false){return navigator.mediaDevices.getUserMedia({audio:true,video});}
+  function createPc(toUser){
     const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]});
-    pc.onicecandidate=e=>{
-      if(e.candidate){
-        sendWs({type:'call_ice',to:toUser,candidate:e.candidate});
-      }
-    };
-    pc.ontrack=e=>{
-      setCall(p=>p?({...p,remoteStream:e.streams[0],state:'active'}):p);
-    };
-    pcRef.current=pc;
-    return pc;
+    pc.onicecandidate=e=>{if(e.candidate) sendWs({type:'call_ice',to:toUser,candidate:e.candidate});};
+    pc.ontrack=e=>setCall(p=>p?({...p,remoteStream:e.streams[0],state:'active'}):p);
+    pcRef.current=pc;return pc;
   }
-
   async function startCall(toUser,callType){
-    if(!wsRef.current) return;
     try{
       const stream=await getMedia(callType==='video');
-      const pc=createPeerConnection(toUser,callType==='video');
+      const pc=createPc(toUser);
       stream.getTracks().forEach(t=>pc.addTrack(t,stream));
-      const offer=await pc.createOffer();
-      await pc.setLocalDescription(offer);
+      const offer=await pc.createOffer();await pc.setLocalDescription(offer);
       sendWs({type:'call_offer',to:toUser,offer,callType});
       setCall({state:'calling',username:toUser,callType,localStream:stream,remoteStream:null});
-    }catch(e){
-      toast('❌ Could not access microphone/camera');
-    }
+    }catch{toast('❌ Could not access microphone/camera');}
   }
-
   async function acceptCall(){
     if(!call) return;
     try{
       const stream=await getMedia(call.callType==='video');
-      const pc=createPeerConnection(call.username,call.callType==='video');
+      const pc=createPc(call.username);
       stream.getTracks().forEach(t=>pc.addTrack(t,stream));
       await pc.setRemoteDescription(new RTCSessionDescription(call.offer));
-      const answer=await pc.createAnswer();
-      await pc.setLocalDescription(answer);
+      const answer=await pc.createAnswer();await pc.setLocalDescription(answer);
       sendWs({type:'call_answer',to:call.username,answer});
       setCall(p=>({...p,state:'connecting',localStream:stream}));
-    }catch(e){
-      toast('❌ Could not access microphone/camera');
-      endCall();
-    }
+    }catch{toast('❌ Could not access microphone/camera');endCall();}
   }
-
   function endCall(){
     if(pcRef.current){pcRef.current.close();pcRef.current=null;}
-    if(call){
-      if(call.localStream) call.localStream.getTracks().forEach(t=>t.stop());
-      sendWs({type:'call_end',to:call.username});
-    }
+    if(call){if(call.localStream) call.localStream.getTracks().forEach(t=>t.stop());sendWs({type:'call_end',to:call.username});}
     setCall(null);
   }
+  function rejectCall(){if(call) sendWs({type:'call_reject',to:call.username});setCall(null);}
 
-  function rejectCall(){
-    if(call) sendWs({type:'call_reject',to:call.username});
-    setCall(null);
-  }
-
-  // ── WEBSOCKET ──────────────────────────────────────────
-  function sendWs(msg){
-    if(wsRef.current&&wsRef.current.readyState===1)
-      wsRef.current.send(JSON.stringify(msg));
-  }
+  // WEBSOCKET
+  function sendWs(msg){if(wsRef.current&&wsRef.current.readyState===1) wsRef.current.send(JSON.stringify(msg));}
 
   function connectWs(tok){
     const proto=location.protocol==='https:'?'wss':'ws';
     const ws=new WebSocket(`${proto}://${location.host}/ws`);
     ws.onopen=()=>ws.send(tok);
     ws.onmessage=e=>{try{handleWs(JSON.parse(e.data));}catch{}};
-    ws.onclose=()=>{
-      toast('⚠️ Disconnected');
-      // Auto-reconnect after 3s if we have a token
-      setTimeout(()=>{if(tokenRef.current) connectWs(tokenRef.current);},3000);
-    };
+    ws.onclose=()=>{setTimeout(()=>{if(tokenRef.current) connectWs(tokenRef.current);},3000);};
     wsRef.current=ws;
   }
 
   async function handleWs(data){
     switch(data.type){
-      case 'online_friends':
-        setFd(p=>({...p,online_friends:data.friends})); break;
-      case 'pending_requests':
-        setFd(p=>({...p,pending_incoming:data.requests})); break;
+      case 'online_friends': setFd(p=>({...p,online_friends:data.friends}));break;
+      case 'pending_requests': setFd(p=>({...p,pending_incoming:data.requests}));break;
       case 'friend_request':
         setFd(p=>({...p,pending_incoming:[...new Set([...p.pending_incoming,data.from])]}));
-        toast(`👋 ${data.from} sent you a friend request!`); break;
-      case 'friend_accepted':
-        loadFriends(); toast(data.message); break;
-      case 'friend_rejected':
-        toast(data.message); break;
-      case 'friend_online':
-        setFd(p=>({...p,online_friends:[...new Set([...p.online_friends,data.username])]})); break;
-      case 'friend_offline':
-        setFd(p=>({...p,online_friends:p.online_friends.filter(u=>u!==data.username)})); break;
+        toast(`👋 ${data.from} sent you a friend request!`);break;
+      case 'friend_accepted': loadFriends();toast(data.message);break;
+      case 'friend_rejected': toast(data.message);break;
+      case 'friend_online': setFd(p=>({...p,online_friends:[...new Set([...p.online_friends,data.username])]}));break;
+      case 'friend_offline': setFd(p=>({...p,online_friends:p.online_friends.filter(u=>u!==data.username)}));break;
       case 'avatar_update':
-        setAvatarCache(p=>({...p,[data.username]:data.avatar_url})); break;
+        setAvatarCache(p=>({...p,[data.username]:data.avatar_url}));break;
+      case 'status_update':
+        setStatusCache(p=>({...p,[data.username]:data.status}));break;
       case 'chat':
-        setChatCache(p=>({...p,[data.from]:[...(p[data.from]||[]),{from_user:data.from,to_user:'',message:data.message,created_at:data.time}]}));
-        if(activeChatRef.current!==data.from) toast(`💬 ${data.from}: ${data.message}`); break;
-      case 'chat_sent':
-        setChatCache(p=>({...p,[data.to]:[...(p[data.to]||[]),{from_user:'__me__',to_user:data.to,message:data.message,created_at:data.time}]})); break;
-      case 'error': toast(data.message); break;
-
-      // ── WEBRTC SIGNALING ──
-      case 'call_offer':
-        setCall({state:'incoming',username:data.from,callType:data.callType,offer:data.offer,localStream:null,remoteStream:null});
+        const newMsg={from_user:data.from,to_user:'',message:data.message,msg_type:data.msg_type||'text',media_url:data.media_url,created_at:data.created_at||new Date().toISOString()};
+        setChatCache(p=>({...p,[data.from]:[...(p[data.from]||[]),newMsg]}));
+        if(activeChatRef.current!==data.from){
+          const preview=data.msg_type==='image'?'📷 Photo':data.msg_type==='video'?'🎥 Video':(data.message||'');
+          toast(`💬 ${data.from}: ${preview}`);
+        }
         break;
+      case 'chat_sent':
+        const sentMsg={from_user:'__me__',to_user:data.to,message:data.message,msg_type:data.msg_type||'text',media_url:data.media_url,created_at:data.created_at||new Date().toISOString()};
+        setChatCache(p=>({...p,[data.to]:[...(p[data.to]||[]),sentMsg]}));break;
+      case 'error': toast(data.message);break;
+      case 'call_offer': setCall({state:'incoming',username:data.from,callType:data.callType,offer:data.offer,localStream:null,remoteStream:null});break;
       case 'call_answer':
         if(pcRef.current) await pcRef.current.setRemoteDescription(new RTCSessionDescription(data.answer));
-        setCall(p=>p?({...p,state:'active'}):p); break;
+        setCall(p=>p?({...p,state:'active'}):p);break;
       case 'call_ice':
-        if(pcRef.current&&data.candidate) await pcRef.current.addIceCandidate(new RTCIceCandidate(data.candidate)); break;
-      case 'call_end': case 'call_reject':
+        if(pcRef.current&&data.candidate) await pcRef.current.addIceCandidate(new RTCIceCandidate(data.candidate));break;
+      case 'call_end':case 'call_reject':
         if(pcRef.current){pcRef.current.close();pcRef.current=null;}
         setCall(p=>{if(p&&p.localStream) p.localStream.getTracks().forEach(t=>t.stop());return null;});
-        toast(data.type==='call_reject'?'📵 Call declined':'📵 Call ended'); break;
-      case 'call_busy':
-        toast('📵 User is busy'); break;
+        toast(data.type==='call_reject'?'📵 Call declined':'📵 Call ended');break;
     }
   }
 
-  async function onLogin(tok,username,email,avatarUrl){
-    setToken(tok);tokenRef.current=tok;
-    setMe(username);meRef.current=username;
-    setMyEmail(email);setMyAvatar(avatarUrl);
-    await loadFriends(tok);
-    connectWs(tok);
+  async function onLogin(tok,profile){
+    setToken(tok);tokenRef.current=tok;setMyProfile(profile);
+    await loadFriends(tok);connectWs(tok);
   }
 
   function onLogout(){
-    localStorage.removeItem('chatterly_token');
-    localStorage.removeItem('chatterly_user');
+    localStorage.removeItem('chatterly_token');localStorage.removeItem('chatterly_user');
     if(wsRef.current) wsRef.current.close();
     if(call) endCall();
     setToken(null);tokenRef.current=null;
-    setMe('');setMyEmail('');setMyAvatar(null);
+    setMyProfile({username:'',email:'',avatar_url:null,bio:'',status:''});
     setFd({friends:[],friends_info:[],online_friends:[],pending_incoming:[],pending_outgoing:[]});
     setActiveChat(null);setChatCache({});setMsgInput('');
     setShowProfile(false);setShowAdd(false);setCall(null);
@@ -691,9 +738,32 @@ function App(){
 
   function sendMsg(){
     const msg=msgInput.trim();
-    if(!msg||!activeChat||!wsRef.current) return;
-    sendWs({type:'chat',to:activeChat,message:msg});
+    if(!msg||!activeChat) return;
+    sendWs({type:'chat',to:activeChat,message:msg,msg_type:'text'});
     setMsgInput('');
+  }
+
+  async function sendMedia(file){
+    if(!activeChat) return;
+    const isVideo=file.type.startsWith('video/');
+    const isImage=file.type.startsWith('image/');
+    if(!isImage&&!isVideo){toast('❌ Only images and videos are supported');return;}
+    setUploadProgress(0);
+    try{
+      const fd=new FormData();fd.append('file',file);
+      // Simulate progress (XHR for real progress)
+      const xhr=new XMLHttpRequest();
+      xhr.upload.onprogress=e=>{if(e.lengthComputable) setUploadProgress(Math.round(e.loaded/e.total*100));};
+      const result=await new Promise((resolve,reject)=>{
+        xhr.open('POST','/upload-media');
+        xhr.setRequestHeader('Authorization','Bearer '+tokenRef.current);
+        xhr.onload=()=>xhr.status===200?resolve(JSON.parse(xhr.responseText)):reject();
+        xhr.onerror=reject;
+        xhr.send(fd);
+      });
+      sendWs({type:'chat',to:activeChat,message:'',msg_type:result.type,media_url:result.url});
+    }catch{toast('❌ Upload failed');}
+    setUploadProgress(null);
   }
 
   async function sendFriendReq(username){
@@ -711,44 +781,52 @@ function App(){
   }
 
   async function doSearch(q){
-    setSearchQ(q);
-    if(!q){setSearchRes([]);return;}
+    setSearchQ(q);if(!q){setSearchRes([]);return;}
     const r=await fetch(`/users/search?q=${encodeURIComponent(q)}`,{headers:{Authorization:'Bearer '+tokenRef.current}});
     const d=await r.json();setSearchRes(d.results);
   }
 
   useEffect(()=>{msgsEndRef.current?.scrollIntoView({behavior:'smooth'})},[chatCache,activeChat]);
 
-  function fmtDate(d){
-    if(!d) return 'Today';
-    const dt=new Date(d.includes('Z')?d:d+'Z');
-    const now=new Date(),yest=new Date(now);yest.setDate(yest.getDate()-1);
-    if(dt.toDateString()===now.toDateString()) return 'Today';
-    if(dt.toDateString()===yest.toDateString()) return 'Yesterday';
-    return dt.toLocaleDateString([],{day:'numeric',month:'long',year:'numeric'});
+  function getPreview(u){
+    const h=chatCache[u];if(!h||!h.length) return null;
+    const l=h[h.length-1];
+    const prefix=(l.from_user===myProfile.username||l.from_user==='__me__')?'You: ':'';
+    if(l.msg_type==='image') return prefix+'📷 Photo';
+    if(l.msg_type==='video') return prefix+'🎥 Video';
+    return prefix+l.message;
   }
-  function fmtTime(d){
-    if(!d) return '';
-    if(/^\d{2}:\d{2}$/.test(d)) return d;
-    return new Date(d.includes('Z')?d:d+'Z').toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  }
-  function getPreview(u){const h=chatCache[u];if(!h||!h.length) return null;const l=h[h.length-1];return((l.from_user===me||l.from_user==='__me__')?'You: ':'')+l.message;}
   function isOnline(u){return fd.online_friends.includes(u)}
 
   function renderMsgs(){
     const msgs=chatCache[activeChat]||[];const items=[];let lastDate=null,lastSender=null;
     msgs.forEach((m,i)=>{
-      const isMine=m.from_user===me||m.from_user==='__me__';
+      const isMine=m.from_user===myProfile.username||m.from_user==='__me__';
       const date=fmtDate(m.created_at);
-      if(date!==lastDate){items.push(<div key={`d${i}`} className="date-sep"><span>{date}</span></div>);lastDate=date;lastSender=null;}
+      const time=fmtTime(m.created_at);
+      if(date!==lastDate){
+        items.push(<div key={`d${i}`} className="date-sep"><span>{date}</span></div>);
+        lastDate=date;lastSender=null;
+      }
       const gs=lastSender!==m.from_user;lastSender=m.from_user;
+      const isMedia=m.msg_type==='image'||m.msg_type==='video';
       items.push(
         <div key={i} className={`msg-row ${isMine?'me':'them'}`} style={{marginTop:gs&&i>0?8:2}}>
           <div className="bubble-wrap">
-            <div className={`bubble ${isMine?'me':'them'}${!gs?' cont':''}`}>
-              <span className="bubble-text">{m.message}</span>
-              <div className="bubble-time">{fmtTime(m.created_at)}</div>
-            </div>
+            {isMedia?(
+              <div className="media-bubble-wrap" style={{borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={()=>setLightbox({src:m.media_url,type:m.msg_type})}>
+                {m.msg_type==='image'
+                  ?<img src={m.media_url} className="msg-image" alt="photo" style={{display:'block',maxWidth:260,maxHeight:260,objectFit:'cover'}}/>
+                  :<video src={m.media_url} className="msg-video" style={{display:'block',maxWidth:260,maxHeight:260}} controls/>
+                }
+                <div className="media-time-overlay">{time}</div>
+              </div>
+            ):(
+              <div className={`bubble ${isMine?'me':'them'}${!gs?' cont':''}`}>
+                <span className="bubble-text">{m.message}</span>
+                <div className="bubble-time">{time}</div>
+              </div>
+            )}
           </div>
         </div>
       );
@@ -760,6 +838,7 @@ function App(){
 
   const sortedFriends=[...fd.friends].sort((a,b)=>isOnline(b)-isOnline(a));
   const activeChatOnline=activeChat&&isOnline(activeChat);
+  const me=myProfile.username;
 
   return(
     <>
@@ -768,10 +847,10 @@ function App(){
       <div className="sidebar">
         <div className="sidebar-head">
           <div className="user-row" onClick={()=>setShowProfile(true)}>
-            <Avatar username={me} avatarUrl={myAvatar} size={38} circle={true} fontSize={15}/>
+            <Avatar username={me} avatarUrl={myProfile.avatar_url} size={38} circle={true} fontSize={15}/>
             <div style={{flex:1,minWidth:0}}>
               <div className="user-name">{me}</div>
-              <div className="user-status">● Online</div>
+              <div className="user-status-text">{myProfile.status||'● Online'}</div>
             </div>
             <button className="icon-btn" onClick={e=>{e.stopPropagation();setShowProfile(true)}} title="Profile">⚙</button>
           </div>
@@ -795,7 +874,7 @@ function App(){
                   </div>
                   <div className="f-info">
                     <div className="f-name">{u}</div>
-                    <div className="f-sub">{getPreview(u)||(isOnline(u)?'● Online':'● Offline')}</div>
+                    <div className="f-sub">{getPreview(u)||(statusCache[u]||( isOnline(u)?'● Online':'● Offline'))}</div>
                   </div>
                 </div>
               ))
@@ -844,9 +923,11 @@ function App(){
           <>
             <div className="chat-header">
               <Avatar username={activeChat} avatarUrl={avatarCache[activeChat]} size={42} circle={true} fontSize={17}/>
-              <div style={{flex:1}}>
+              <div className="ch-info">
                 <div className="ch-name">{activeChat}</div>
-                <div className={`ch-status ${activeChatOnline?'online':'offline'}`}>{activeChatOnline?'● Online':'● Offline'}</div>
+                <div className={`ch-status ${activeChatOnline?'online':'offline'}`}>
+                  {activeChatOnline?(statusCache[activeChat]||'● Online'):'● Offline'}
+                </div>
               </div>
               {activeChatOnline&&(
                 <div className="call-btns">
@@ -855,13 +936,33 @@ function App(){
                 </div>
               )}
             </div>
+
             {loadingMsgs
               ?<div className="loading-msgs"><div className="spinner"/>Loading messages...</div>
-              :<div className="msgs-wrap">{renderMsgs()}<div ref={msgsEndRef}/></div>
+              :<div className="msgs-wrap">
+                {renderMsgs()}
+                {uploadProgress!==null&&(
+                  <div className="msg-row me" style={{marginTop:8}}>
+                    <div className="bubble-wrap">
+                      <div className="upload-progress">
+                        <span>📤 Uploading...</span>
+                        <div className="progress-bar"><div className="progress-fill" style={{width:uploadProgress+'%'}}/></div>
+                        <span style={{fontSize:11}}>{uploadProgress}%</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={msgsEndRef}/>
+              </div>
             }
+
             <div className="input-bar">
-              <input className="msg-input" value={msgInput} onChange={e=>setMsgInput(e.target.value)}
-                onKeyDown={e=>e.key==='Enter'&&sendMsg()} placeholder={`Message ${activeChat}...`}/>
+              <input ref={fileInputRef} type="file" accept="image/*,video/*" style={{display:'none'}} onChange={e=>{if(e.target.files[0]){sendMedia(e.target.files[0]);e.target.value='';}}}/>
+              <button className="attach-btn" onClick={()=>fileInputRef.current.click()} title="Send photo or video">📎</button>
+              <textarea className="msg-input" value={msgInput} rows={1}
+                onChange={e=>{setMsgInput(e.target.value);e.target.style.height='auto';e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';}}
+                onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}}
+                placeholder={`Message ${activeChat}... (Shift+Enter for new line)`}/>
               <button className="send-btn" onClick={sendMsg}>➤</button>
             </div>
           </>
@@ -869,26 +970,29 @@ function App(){
       </div>
     </div>
 
-    {/* CALL UI */}
-    {call&&(
-      <CallScreen
-        call={call} me={me} avatarCache={avatarCache}
-        onEnd={endCall}
-        onAccept={acceptCall}
-        onReject={rejectCall}
-      />
-    )}
+    {/* CALL */}
+    {call&&<CallScreen call={call} avatarCache={avatarCache} onEnd={endCall} onAccept={acceptCall} onReject={rejectCall}/>}
+
+    {/* LIGHTBOX */}
+    {lightbox&&<Lightbox src={lightbox.src} type={lightbox.type} onClose={()=>setLightbox(null)}/>}
 
     {/* PROFILE MODAL */}
     {showProfile&&(
-      <ProfileModal me={me} myEmail={myEmail} myAvatar={myAvatar} token={token}
+      <ProfileModal
+        me={me} myEmail={myProfile.email} myAvatar={myProfile.avatar_url}
+        myBio={myProfile.bio} myStatus={myProfile.status} token={token}
         onClose={()=>setShowProfile(false)} onLogout={onLogout}
         onAvatarUpdate={(url)=>{
-          setMyAvatar(url);
-          const stored=JSON.parse(localStorage.getItem('chatterly_user')||'{}');
-          stored.avatar_url=url;
-          localStorage.setItem('chatterly_user',JSON.stringify(stored));
+          setMyProfile(p=>({...p,avatar_url:url}));
+          const s=JSON.parse(localStorage.getItem('chatterly_user')||'{}');
+          s.avatar_url=url;localStorage.setItem('chatterly_user',JSON.stringify(s));
           toast('✅ Profile picture updated!');
+        }}
+        onProfileUpdate={(bio,status)=>{
+          setMyProfile(p=>({...p,bio,status}));
+          const s=JSON.parse(localStorage.getItem('chatterly_user')||'{}');
+          s.bio=bio;s.status=status;localStorage.setItem('chatterly_user',JSON.stringify(s));
+          toast('✅ Profile updated!');
         }}
       />
     )}
@@ -909,7 +1013,10 @@ function App(){
               return(
                 <div key={u.username} className="search-row">
                   <Avatar username={u.username} avatarUrl={u.avatar_url} size={36} circle={true} fontSize={15}/>
-                  <span className="search-name">{u.username}</span>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div className="search-name">{u.username}</div>
+                    {u.status&&<div style={{fontSize:11,color:'var(--muted)',marginTop:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{u.status}</div>}
+                  </div>
                   <button className={`s-action ${disabled?'dis':'add'}`} disabled={disabled} onClick={()=>!disabled&&sendFriendReq(u.username)}>{label}</button>
                 </div>
               );
